@@ -32,42 +32,42 @@
             this.btnBrowse = new System.Windows.Forms.Button();
             this.inputExcelFilename = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.population = new System.Windows.Forms.NumericUpDown();
-            this.generations = new System.Windows.Forms.NumericUpDown();
-            this.mutationChance = new System.Windows.Forms.NumericUpDown();
-            this.crossoverChance = new System.Windows.Forms.NumericUpDown();
             this.elitePercentage = new System.Windows.Forms.NumericUpDown();
+            this.crossoverChance = new System.Windows.Forms.NumericUpDown();
+            this.mutationChance = new System.Windows.Forms.NumericUpDown();
+            this.generations = new System.Windows.Forms.NumericUpDown();
+            this.population = new System.Windows.Forms.NumericUpDown();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.label7 = new System.Windows.Forms.Label();
+            this.textAvgPopCost = new System.Windows.Forms.TextBox();
+            this.textCostOfOriginal = new System.Windows.Forms.TextBox();
+            this.textCostOfBestFit = new System.Windows.Forms.TextBox();
+            this.sampleCost = new System.Windows.Forms.NumericUpDown();
+            this.trayCost = new System.Windows.Forms.NumericUpDown();
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
-            this.trayCost = new System.Windows.Forms.NumericUpDown();
-            this.sampleCost = new System.Windows.Forms.NumericUpDown();
-            this.textCostOfBestFit = new System.Windows.Forms.TextBox();
-            this.textCostOfOriginal = new System.Windows.Forms.TextBox();
-            this.textAvgPopCost = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
             this.progressBar = new System.Windows.Forms.ProgressBar();
             this.btnStep = new System.Windows.Forms.Button();
             this.btnStep2 = new System.Windows.Forms.Button();
             this.btnAllSteps = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnLoad = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.population)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.generations)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.mutationChance)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.crossoverChance)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.elitePercentage)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.crossoverChance)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mutationChance)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.generations)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.population)).BeginInit();
             this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trayCost)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sampleCost)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trayCost)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -87,6 +87,7 @@
             this.btnBrowse.TabIndex = 1;
             this.btnBrowse.Text = "...";
             this.btnBrowse.UseVisualStyleBackColor = true;
+            this.btnBrowse.Click += new System.EventHandler(this.btnBrowse_Click);
             // 
             // inputExcelFilename
             // 
@@ -94,6 +95,7 @@
             this.inputExcelFilename.Name = "inputExcelFilename";
             this.inputExcelFilename.Size = new System.Drawing.Size(245, 20);
             this.inputExcelFilename.TabIndex = 2;
+            this.inputExcelFilename.Text = "D:\\Users\\Haggai\\Documents\\GitHub\\HaZera\\HaZera\\bin\\Debug\\input.xlsx";
             // 
             // groupBox1
             // 
@@ -114,94 +116,45 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "[ Genetic Algorithm Attributes ]";
             // 
-            // label2
+            // elitePercentage
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(13, 24);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(56, 13);
-            this.label2.TabIndex = 0;
-            this.label2.Text = "population";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(13, 50);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(62, 13);
-            this.label3.TabIndex = 1;
-            this.label3.Text = "generations";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(13, 76);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(86, 13);
-            this.label4.TabIndex = 2;
-            this.label4.Text = "mutation chance";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(13, 102);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(92, 13);
-            this.label5.TabIndex = 3;
-            this.label5.Text = "crossover chance";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(13, 128);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(88, 13);
-            this.label6.TabIndex = 4;
-            this.label6.Text = "elite selection (%)";
-            // 
-            // population
-            // 
-            this.population.Location = new System.Drawing.Point(115, 20);
-            this.population.Maximum = new decimal(new int[] {
-            100000,
+            this.elitePercentage.Location = new System.Drawing.Point(115, 124);
+            this.elitePercentage.Maximum = new decimal(new int[] {
+            50,
             0,
             0,
             0});
-            this.population.Minimum = new decimal(new int[] {
-            10,
+            this.elitePercentage.Minimum = new decimal(new int[] {
+            1,
             0,
             0,
             0});
-            this.population.Name = "population";
-            this.population.Size = new System.Drawing.Size(72, 20);
-            this.population.TabIndex = 6;
-            this.population.Value = new decimal(new int[] {
-            100,
+            this.elitePercentage.Name = "elitePercentage";
+            this.elitePercentage.Size = new System.Drawing.Size(72, 20);
+            this.elitePercentage.TabIndex = 10;
+            this.elitePercentage.Value = new decimal(new int[] {
+            1,
             0,
             0,
             0});
             // 
-            // generations
+            // crossoverChance
             // 
-            this.generations.Location = new System.Drawing.Point(115, 46);
-            this.generations.Maximum = new decimal(new int[] {
-            100000,
+            this.crossoverChance.DecimalPlaces = 2;
+            this.crossoverChance.Increment = new decimal(new int[] {
+            5,
             0,
             0,
-            0});
-            this.generations.Minimum = new decimal(new int[] {
-            10,
+            131072});
+            this.crossoverChance.Location = new System.Drawing.Point(115, 98);
+            this.crossoverChance.Maximum = new decimal(new int[] {
+            9,
             0,
             0,
-            0});
-            this.generations.Name = "generations";
-            this.generations.Size = new System.Drawing.Size(72, 20);
-            this.generations.TabIndex = 7;
-            this.generations.Value = new decimal(new int[] {
-            100,
-            0,
-            0,
-            0});
+            65536});
+            this.crossoverChance.Name = "crossoverChance";
+            this.crossoverChance.Size = new System.Drawing.Size(72, 20);
+            this.crossoverChance.TabIndex = 9;
             // 
             // mutationChance
             // 
@@ -226,45 +179,94 @@
             0,
             131072});
             // 
-            // crossoverChance
+            // generations
             // 
-            this.crossoverChance.DecimalPlaces = 2;
-            this.crossoverChance.Increment = new decimal(new int[] {
-            5,
-            0,
-            0,
-            131072});
-            this.crossoverChance.Location = new System.Drawing.Point(115, 98);
-            this.crossoverChance.Maximum = new decimal(new int[] {
-            9,
-            0,
-            0,
-            65536});
-            this.crossoverChance.Name = "crossoverChance";
-            this.crossoverChance.Size = new System.Drawing.Size(72, 20);
-            this.crossoverChance.TabIndex = 9;
-            // 
-            // elitePercentage
-            // 
-            this.elitePercentage.Location = new System.Drawing.Point(115, 124);
-            this.elitePercentage.Maximum = new decimal(new int[] {
-            50,
+            this.generations.Location = new System.Drawing.Point(115, 46);
+            this.generations.Maximum = new decimal(new int[] {
+            100000,
             0,
             0,
             0});
-            this.elitePercentage.Minimum = new decimal(new int[] {
-            1,
+            this.generations.Minimum = new decimal(new int[] {
+            10,
             0,
             0,
             0});
-            this.elitePercentage.Name = "elitePercentage";
-            this.elitePercentage.Size = new System.Drawing.Size(72, 20);
-            this.elitePercentage.TabIndex = 10;
-            this.elitePercentage.Value = new decimal(new int[] {
-            1,
+            this.generations.Name = "generations";
+            this.generations.Size = new System.Drawing.Size(72, 20);
+            this.generations.TabIndex = 7;
+            this.generations.Value = new decimal(new int[] {
+            100,
             0,
             0,
             0});
+            // 
+            // population
+            // 
+            this.population.Location = new System.Drawing.Point(115, 20);
+            this.population.Maximum = new decimal(new int[] {
+            100000,
+            0,
+            0,
+            0});
+            this.population.Minimum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.population.Name = "population";
+            this.population.Size = new System.Drawing.Size(72, 20);
+            this.population.TabIndex = 6;
+            this.population.Value = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(13, 128);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(88, 13);
+            this.label6.TabIndex = 4;
+            this.label6.Text = "elite selection (%)";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(13, 102);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(92, 13);
+            this.label5.TabIndex = 3;
+            this.label5.Text = "crossover chance";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(13, 76);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(86, 13);
+            this.label4.TabIndex = 2;
+            this.label4.Text = "mutation chance";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(13, 50);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(62, 13);
+            this.label3.TabIndex = 1;
+            this.label3.Text = "generations";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(13, 24);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(56, 13);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "population";
             // 
             // groupBox2
             // 
@@ -283,16 +285,75 @@
             this.groupBox2.Size = new System.Drawing.Size(205, 154);
             this.groupBox2.TabIndex = 4;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "[ Seeding Attributes ]";
+            this.groupBox2.Text = "[ Seeding Planner Attributes ]";
             // 
-            // label7
+            // textAvgPopCost
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(6, 24);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(47, 13);
-            this.label7.TabIndex = 5;
-            this.label7.Text = "tray cost";
+            this.textAvgPopCost.Location = new System.Drawing.Point(125, 124);
+            this.textAvgPopCost.Name = "textAvgPopCost";
+            this.textAvgPopCost.ReadOnly = true;
+            this.textAvgPopCost.Size = new System.Drawing.Size(65, 20);
+            this.textAvgPopCost.TabIndex = 14;
+            // 
+            // textCostOfOriginal
+            // 
+            this.textCostOfOriginal.Location = new System.Drawing.Point(125, 72);
+            this.textCostOfOriginal.Name = "textCostOfOriginal";
+            this.textCostOfOriginal.ReadOnly = true;
+            this.textCostOfOriginal.Size = new System.Drawing.Size(65, 20);
+            this.textCostOfOriginal.TabIndex = 13;
+            // 
+            // textCostOfBestFit
+            // 
+            this.textCostOfBestFit.Location = new System.Drawing.Point(125, 98);
+            this.textCostOfBestFit.Name = "textCostOfBestFit";
+            this.textCostOfBestFit.ReadOnly = true;
+            this.textCostOfBestFit.Size = new System.Drawing.Size(65, 20);
+            this.textCostOfBestFit.TabIndex = 12;
+            // 
+            // sampleCost
+            // 
+            this.sampleCost.Location = new System.Drawing.Point(125, 46);
+            this.sampleCost.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.sampleCost.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.sampleCost.Name = "sampleCost";
+            this.sampleCost.Size = new System.Drawing.Size(65, 20);
+            this.sampleCost.TabIndex = 11;
+            this.sampleCost.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // trayCost
+            // 
+            this.trayCost.Location = new System.Drawing.Point(125, 20);
+            this.trayCost.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.trayCost.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.trayCost.Name = "trayCost";
+            this.trayCost.Size = new System.Drawing.Size(65, 20);
+            this.trayCost.TabIndex = 10;
+            this.trayCost.Value = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
             // 
             // label8
             // 
@@ -330,73 +391,14 @@
             this.label11.TabIndex = 9;
             this.label11.Text = "avg. cost in population";
             // 
-            // trayCost
+            // label7
             // 
-            this.trayCost.Location = new System.Drawing.Point(125, 20);
-            this.trayCost.Maximum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-            this.trayCost.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.trayCost.Name = "trayCost";
-            this.trayCost.Size = new System.Drawing.Size(65, 20);
-            this.trayCost.TabIndex = 10;
-            this.trayCost.Value = new decimal(new int[] {
-            100,
-            0,
-            0,
-            0});
-            // 
-            // sampleCost
-            // 
-            this.sampleCost.Location = new System.Drawing.Point(125, 46);
-            this.sampleCost.Maximum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-            this.sampleCost.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.sampleCost.Name = "sampleCost";
-            this.sampleCost.Size = new System.Drawing.Size(65, 20);
-            this.sampleCost.TabIndex = 11;
-            this.sampleCost.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            // 
-            // textCostOfBestFit
-            // 
-            this.textCostOfBestFit.Location = new System.Drawing.Point(125, 98);
-            this.textCostOfBestFit.Name = "textCostOfBestFit";
-            this.textCostOfBestFit.ReadOnly = true;
-            this.textCostOfBestFit.Size = new System.Drawing.Size(65, 20);
-            this.textCostOfBestFit.TabIndex = 12;
-            // 
-            // textCostOfOriginal
-            // 
-            this.textCostOfOriginal.Location = new System.Drawing.Point(125, 72);
-            this.textCostOfOriginal.Name = "textCostOfOriginal";
-            this.textCostOfOriginal.ReadOnly = true;
-            this.textCostOfOriginal.Size = new System.Drawing.Size(65, 20);
-            this.textCostOfOriginal.TabIndex = 13;
-            // 
-            // textAvgPopCost
-            // 
-            this.textAvgPopCost.Location = new System.Drawing.Point(125, 124);
-            this.textAvgPopCost.Name = "textAvgPopCost";
-            this.textAvgPopCost.ReadOnly = true;
-            this.textAvgPopCost.Size = new System.Drawing.Size(65, 20);
-            this.textAvgPopCost.TabIndex = 14;
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(6, 24);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(47, 13);
+            this.label7.TabIndex = 5;
+            this.label7.Text = "tray cost";
             // 
             // progressBar
             // 
@@ -441,21 +443,22 @@
             this.btnSave.Text = "Save best fit to file";
             this.btnSave.UseVisualStyleBackColor = true;
             // 
-            // button1
+            // btnLoad
             // 
-            this.button1.Location = new System.Drawing.Point(385, 11);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(46, 20);
-            this.button1.TabIndex = 10;
-            this.button1.Text = "Load";
-            this.button1.UseVisualStyleBackColor = true;
+            this.btnLoad.Location = new System.Drawing.Point(385, 11);
+            this.btnLoad.Name = "btnLoad";
+            this.btnLoad.Size = new System.Drawing.Size(46, 20);
+            this.btnLoad.TabIndex = 10;
+            this.btnLoad.Text = "Load";
+            this.btnLoad.UseVisualStyleBackColor = true;
+            this.btnLoad.Click += new System.EventHandler(this.btnLoad_Click);
             // 
             // SeedingPlanner
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(441, 540);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnLoad);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.btnAllSteps);
             this.Controls.Add(this.btnStep2);
@@ -471,15 +474,15 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.population)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.generations)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.mutationChance)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.crossoverChance)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.elitePercentage)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.crossoverChance)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mutationChance)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.generations)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.population)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trayCost)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.sampleCost)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trayCost)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -517,7 +520,7 @@
         private System.Windows.Forms.Button btnStep2;
         private System.Windows.Forms.Button btnAllSteps;
         private System.Windows.Forms.Button btnSave;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnLoad;
     }
 }
 
