@@ -10,11 +10,16 @@ using System.Windows.Forms;
 
 namespace SeedingPlanner
 {
-    public partial class Form1 : Form
+    public partial class SeedingPlanner : Form
     {
-        public Form1()
+        public SeedingPlanner()
         {
             InitializeComponent();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
