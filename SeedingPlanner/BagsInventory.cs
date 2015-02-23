@@ -14,31 +14,28 @@ namespace SeedingPlanner
 {
     class BagsInventory
     {
-        private List<Bag> _bags;
+        // configuration settings
+        public class ColumnNumber
+        {
+            public static int FIELD_NAME = Convert.ToInt32(ConfigurationManager.AppSettings["FieldColumnNumber"]);
+            public static int BAG_NAME = Convert.ToInt32(ConfigurationManager.AppSettings["BagNameColumnNumber"]);
+            public static int SEEDS_TO_PLANT = Convert.ToInt32(ConfigurationManager.AppSettings["SeedsToPlantColumnNumber"]);
+            public static int SEEDS_TO_SAMPLE = Convert.ToInt32(ConfigurationManager.AppSettings["SeedsToSampleColumnNumber"]);
+            public static int SAMPLES = Convert.ToInt32(ConfigurationManager.AppSettings["SamplesColumnNumber"]);
+            public static int COMMENT = Convert.ToInt32(ConfigurationManager.AppSettings["CommentColumnNumber"]);
+        }
 
-        private int _fieldName_ColumnNumber;
-        private int _bagName_ColumnNumber;
-        private int _seedsToPlant_ColumnNumber;
-        private int _seedsToSample_ColumnNumber;
-        private int _samples_ColumnNumber;
-        private int _comment_ColumnNumber;
+        private static List<Bag> _bags = new List<Bag>();
+        public static int Count { get { return _bags.Count; } }
 
+        /*
         public BagsInventory()
         {
             _bags = new List<Bag>();
-
-            // initialize column numbers
-            var appSettings = ConfigurationManager.AppSettings;
-            _fieldName_ColumnNumber = Convert.ToInt32(appSettings["FieldColumnNumber"]);
-            _bagName_ColumnNumber = Convert.ToInt32(appSettings["BagNameColumnNumber"]);
-            _seedsToPlant_ColumnNumber = Convert.ToInt32(appSettings["SeedsToPlantColumnNumber"]);
-            _seedsToSample_ColumnNumber = Convert.ToInt32(appSettings["SeedsToSampleColumnNumber"]);
-            _samples_ColumnNumber = Convert.ToInt32(appSettings["SamplesColumnNumber"]);
-            _comment_ColumnNumber = Convert.ToInt32(appSettings["CommentColumnNumber"]);
-
         }
+         */
 
-        public Bag GetAt(int index)
+        public static Bag GetAt(int index)
         {
             Bag bag = null;
             
@@ -50,7 +47,7 @@ namespace SeedingPlanner
             return bag;
         }
 
-        public bool LoadFromExcel(string filename)
+        public static bool LoadFromExcel(string filename)
         {
             IWorkbook workbook = null;
             if (filename.EndsWith(".xlsx"))
@@ -73,7 +70,7 @@ namespace SeedingPlanner
                 ICell cell = null;
 
                 string fieldName;
-                cell = bag_row.GetCell(_fieldName_ColumnNumber);
+                cell = bag_row.GetCell(ColumnNumber.FIELD_NAME);
                 if (cell.CellType == NPOI.SS.UserModel.CellType.Numeric)
                 {
                     fieldName = cell.NumericCellValue.ToString();
@@ -83,11 +80,11 @@ namespace SeedingPlanner
                     fieldName = cell.StringCellValue;
                 }
 
-                string bagName = bag_row.GetCell(_bagName_ColumnNumber).StringCellValue;
-                int seedsToPlant = (int)bag_row.GetCell(_seedsToPlant_ColumnNumber).NumericCellValue;
-                int seedsToSample = (int)bag_row.GetCell(_seedsToSample_ColumnNumber).NumericCellValue;
-                string samples = bag_row.GetCell(_samples_ColumnNumber).StringCellValue;
-                string comment = bag_row.GetCell(_comment_ColumnNumber).StringCellValue;
+                string bagName = bag_row.GetCell(ColumnNumber.BAG_NAME).StringCellValue;
+                int seedsToPlant = (int)bag_row.GetCell(ColumnNumber.SEEDS_TO_PLANT).NumericCellValue;
+                int seedsToSample = (int)bag_row.GetCell(ColumnNumber.SEEDS_TO_SAMPLE).NumericCellValue;
+                string samples = bag_row.GetCell(ColumnNumber.SAMPLES).StringCellValue;
+                string comment = bag_row.GetCell(ColumnNumber.COMMENT).StringCellValue;
 
                 Bag bag = new Bag(bagName, fieldName, seedsToPlant, seedsToSample, samples, comment);
                 _bags.Add(bag);
@@ -96,14 +93,15 @@ namespace SeedingPlanner
             return true;
         }
 
-        public bool SaveToExcel(string filename)
+        public static bool SaveToExcel(string filename)
         {
             return false;
         }
 
-        public bool SaveToExcel(string filename, int[] ordering)
+        public static bool SaveToExcel(string filename, int[] ordering, bool bCalculateCost)
         {
             return false;
         }
+
     }
 }

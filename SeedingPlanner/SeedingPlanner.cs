@@ -15,13 +15,11 @@ namespace SeedingPlanner
 {
     public partial class SeedingPlanner : Form
     {
-        private BagsInventory _bagsInventory;
 
         public SeedingPlanner()
         {
             InitializeComponent();
-            _bagsInventory = null;
-
+            
             // load default values
             var appSettings = ConfigurationManager.AppSettings;
             population.Value = Convert.ToDecimal(appSettings["PopulationSize"]);
@@ -65,11 +63,19 @@ namespace SeedingPlanner
                 return;
             }
 
-            _bagsInventory = new BagsInventory();
-            if (_bagsInventory.LoadFromExcel(filename))
+            if (BagsInventory.LoadFromExcel(filename))
             {
                 // loaded successfully, update numbers and UI
                 EnableUI();
+                SeedingPlan plan = new SeedingPlan();
+
+                int[] order = new int[BagsInventory.Count];
+                for (int i = 0; i < BagsInventory.Count; ++i)
+                {
+                    order[i] = i;
+                }
+                plan.Setup(order);
+                int cost = plan.Cost(Convert.ToInt32(trayCost.Value), Convert.ToInt32(sampleCost.Value));
             }
             else
             {
