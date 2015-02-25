@@ -13,6 +13,9 @@ namespace SeedingPlanner
         private List<Plate> _plates;
         private int[] _bagsOrder;
 
+        public int TrayCount { get { return _trays.Count; } }
+        public int PlateCount { get { return _plates.Count; } }
+
         public SeedingPlan()
         {
             //_bags = bags;
@@ -74,6 +77,17 @@ namespace SeedingPlanner
             }
 
             return cost;
+        }
+
+        public void WriteTrays()
+        {
+            Console.WriteLine("");
+            Console.WriteLine("{0} Trays:", TrayCount);
+            Console.WriteLine("");
+            foreach (Tray t in _trays)
+            {
+                Console.WriteLine(t.AsString());
+            }
         }
     }
 }

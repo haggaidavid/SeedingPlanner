@@ -9,6 +9,7 @@ using NPOI.XSSF.UserModel;
 using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
 using System.IO;
+using System.Windows.Forms;
 
 namespace SeedingPlanner
 {
@@ -50,16 +51,24 @@ namespace SeedingPlanner
         public static bool LoadFromExcel(string filename)
         {
             IWorkbook workbook = null;
-            if (filename.EndsWith(".xlsx"))
+            try
             {
-                workbook = new XSSFWorkbook(new FileStream(filename, FileMode.Open, FileAccess.Read));
+                if (filename.EndsWith(".xlsx"))
+                {
+                    workbook = new XSSFWorkbook(new FileStream(filename, FileMode.Open, FileAccess.Read));
+                }
+                else if (filename.EndsWith(".xls"))
+                {
+                    workbook = new HSSFWorkbook(new FileStream(filename, FileMode.Open, FileAccess.Read));
+                }
+                else
+                {
+                    return false;
+                }
             }
-            else if (filename.EndsWith(".xls"))
+            catch (IOException ex)
             {
-                workbook = new HSSFWorkbook(new FileStream(filename, FileMode.Open, FileAccess.Read));
-            }
-            else
-            {
+                MessageBox.Show("error: " + ex.Message);
                 return false;
             }
 
@@ -77,14 +86,14 @@ namespace SeedingPlanner
                 }
                 else
                 {
-                    fieldName = cell.StringCellValue;
+                    fieldName = cell.StringCellValue.Trim();
                 }
 
-                string bagName = bag_row.GetCell(ColumnNumber.BAG_NAME).StringCellValue;
+                string bagName = bag_row.GetCell(ColumnNumber.BAG_NAME).StringCellValue.Trim();
                 int seedsToPlant = (int)bag_row.GetCell(ColumnNumber.SEEDS_TO_PLANT).NumericCellValue;
                 int seedsToSample = (int)bag_row.GetCell(ColumnNumber.SEEDS_TO_SAMPLE).NumericCellValue;
-                string samples = bag_row.GetCell(ColumnNumber.SAMPLES).StringCellValue;
-                string comment = bag_row.GetCell(ColumnNumber.COMMENT).StringCellValue;
+                string samples = bag_row.GetCell(ColumnNumber.SAMPLES).StringCellValue.Trim();
+                string comment = bag_row.GetCell(ColumnNumber.COMMENT).StringCellValue.Trim();
 
                 Bag bag = new Bag(bagName, fieldName, seedsToPlant, seedsToSample, samples, comment);
                 _bags.Add(bag);
