@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Configuration;
 
 using NPOI.XSSF.UserModel;
 using NPOI.HSSF.UserModel;
@@ -16,25 +15,9 @@ namespace SeedingPlanner
     class BagsInventory
     {
         // configuration settings
-        public class ColumnNumber
-        {
-            public static int FIELD_NAME = Convert.ToInt32(ConfigurationManager.AppSettings["FieldColumnNumber"]);
-            public static int BAG_NAME = Convert.ToInt32(ConfigurationManager.AppSettings["BagNameColumnNumber"]);
-            public static int SEEDS_TO_PLANT = Convert.ToInt32(ConfigurationManager.AppSettings["SeedsToPlantColumnNumber"]);
-            public static int SEEDS_TO_SAMPLE = Convert.ToInt32(ConfigurationManager.AppSettings["SeedsToSampleColumnNumber"]);
-            public static int SAMPLES = Convert.ToInt32(ConfigurationManager.AppSettings["SamplesColumnNumber"]);
-            public static int COMMENT = Convert.ToInt32(ConfigurationManager.AppSettings["CommentColumnNumber"]);
-        }
 
         private static List<Bag> _bags = new List<Bag>();
         public static int Count { get { return _bags.Count; } }
-
-        /*
-        public BagsInventory()
-        {
-            _bags = new List<Bag>();
-        }
-         */
 
         public static Bag GetAt(int index)
         {
@@ -79,7 +62,7 @@ namespace SeedingPlanner
                 ICell cell = null;
 
                 string fieldName;
-                cell = bag_row.GetCell(ColumnNumber.FIELD_NAME);
+                cell = bag_row.GetCell(Config.ColumnNumber.FIELD_NAME);
                 if (cell.CellType == NPOI.SS.UserModel.CellType.Numeric)
                 {
                     fieldName = cell.NumericCellValue.ToString();
@@ -89,11 +72,11 @@ namespace SeedingPlanner
                     fieldName = cell.StringCellValue.Trim();
                 }
 
-                string bagName = bag_row.GetCell(ColumnNumber.BAG_NAME).StringCellValue.Trim();
-                int seedsToPlant = (int)bag_row.GetCell(ColumnNumber.SEEDS_TO_PLANT).NumericCellValue;
-                int seedsToSample = (int)bag_row.GetCell(ColumnNumber.SEEDS_TO_SAMPLE).NumericCellValue;
-                string samples = bag_row.GetCell(ColumnNumber.SAMPLES).StringCellValue.Trim();
-                string comment = bag_row.GetCell(ColumnNumber.COMMENT).StringCellValue.Trim();
+                string bagName = bag_row.GetCell(Config.ColumnNumber.BAG_NAME).StringCellValue.Trim();
+                int seedsToPlant = (int)bag_row.GetCell(Config.ColumnNumber.SEEDS_TO_PLANT).NumericCellValue;
+                int seedsToSample = (int)bag_row.GetCell(Config.ColumnNumber.SEEDS_TO_SAMPLE).NumericCellValue;
+                string samples = bag_row.GetCell(Config.ColumnNumber.SAMPLES).StringCellValue.Trim();
+                string comment = bag_row.GetCell(Config.ColumnNumber.COMMENT).StringCellValue.Trim();
 
                 Bag bag = new Bag(bagName, fieldName, seedsToPlant, seedsToSample, samples, comment);
                 _bags.Add(bag);

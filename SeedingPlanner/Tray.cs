@@ -25,7 +25,10 @@ namespace SeedingPlanner
         // list of bags used to populate the tray
         // with row-start to row-end 
         private List<Tuple<Bag, int, int>> _bags;
+        public List<Tuple<Bag, int, int>> Bags { get { return _bags; } }
+
         private int _nextAvailableRow;
+
 
         public Tray(string name)
         {

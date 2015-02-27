@@ -63,6 +63,7 @@
   <ItemGroup>
     <Compile Include="Bag.cs" />
     <Compile Include="BagsInventory.cs" />
+    <Compile Include="Config.cs" />
     <Compile Include="Plate.cs" />
     <Compile Include="SeedingPlan.cs" />
     <Compile Include="SeedingPlanner.cs">
