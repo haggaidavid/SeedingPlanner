@@ -99,6 +99,8 @@ namespace SeedingPlanner
 
             XSSFWorkbook workbook = new XSSFWorkbook();
             ISheet bagsSheet = workbook.CreateSheet("Seed Bags");
+            bagsSheet.IsRightToLeft = true;
+            bagsSheet.CreateFreezePane(0, 1);
 
             int rowIndex = 0;
             IRow headerRow = bagsSheet.CreateRow(rowIndex);
@@ -110,9 +112,9 @@ namespace SeedingPlanner
             headerRow.CreateCell(Config.ColumnNumber.COMMENT).SetCellValue(Config.ColumnName.COMMENT);
 
 
-            rowIndex++;
             for (int i = 0; i < _bagsOrder.Length; ++i)
             {
+                rowIndex++;
                 Bag bag = BagsInventory.GetAt(_bagsOrder[i]);
                 row = bagsSheet.CreateRow(rowIndex);
                 row.CreateCell(Config.ColumnNumber.FIELD_NAME).SetCellValue(bag.FieldName);
@@ -124,6 +126,7 @@ namespace SeedingPlanner
             }
 
             ISheet traysSheet = workbook.CreateSheet("Trays");
+            traysSheet.IsRightToLeft = true;
             rowIndex = 0;
 
             // TODO: create header row
@@ -137,10 +140,22 @@ namespace SeedingPlanner
 
                 Tray tray = _trays[i];
                 List<Tuple<Bag, int, int>> bags = tray.Bags;
+                ICellStyle cellStyle = workbook.CreateCellStyle();
+                cellStyle.WrapText = true;
 
                 // TODO: create string for the description row
                 string trayDescription = "";
-                
+                //trayDescription += "מגש מספר __TRAY_NUMBER__";
+                //trayDescription += "\nסה'כ __SEEDS_COUNT__ זרעים";
+                //trayDescription += "\nמתוך __BAGS_COUNT__ שקיות זרעים";
+                trayDescription += "#__TRAY_NUMBER__";
+                trayDescription += " __SEEDS_COUNT__ ז'";
+                trayDescription += " __BAGS_COUNT__ ש'";
+
+                trayDescription = trayDescription.Replace("__TRAY_NUMBER__", (i + 1).ToString());
+                trayDescription = trayDescription.Replace("__SEEDS_COUNT__", tray.SeedsCount.ToString());
+                trayDescription = trayDescription.Replace("__BAGS_COUNT__", bags.Count.ToString());
+
                 for (int b = 0; b < bags.Count; ++b)
                 {
                     Bag bag = bags[b].Item1;
@@ -148,15 +163,31 @@ namespace SeedingPlanner
                     int toRow = bags[b].Item3;
 
                     row = traysSheet.CreateRow(rowIndex);
-                    row.CreateCell(0).SetCellValue(bag.BagName);
-                    row.CreateCell(1).SetCellValue(fromRow);
-                    row.CreateCell(2).SetCellValue(toRow);
+                    if (b == 0)
+                    {
+                        ICell cell = row.CreateCell(0);
+                        cell.CellStyle = cellStyle;
+                        cell.SetCellValue(trayDescription);
+                    }
+
+                    row.CreateCell(1).SetCellValue(bag.BagName);
+                    row.CreateCell(2).SetCellValue(fromRow);
+                    row.CreateCell(3).SetCellValue(toRow);
+
+                    rowIndex++;
                 }
 
             }
 
-            FileStream fileStream = new FileStream(filename, FileMode.Create);
-            workbook.Write(fileStream);
+            try
+            {
+                FileStream fileStream = new FileStream(filename, FileMode.Create);
+                workbook.Write(fileStream);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("ERROR: " + e.Message);
+            }
 
             return true;
         }

@@ -79,6 +79,7 @@ namespace SeedingPlanner
                 int trays = plan.TrayCount;
                 int plates = plan.PlateCount;
                 plan.WriteTrays();
+                plan.SaveToExcel(filename + ".new.xlsx");
             }
             else
             {

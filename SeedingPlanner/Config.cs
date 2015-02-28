@@ -21,12 +21,12 @@ namespace SeedingPlanner
 
         public class ColumnName
         {
-            public static int FIELD_NAME = Convert.ToInt32(ConfigurationManager.AppSettings["FieldColumnName"]);
-            public static int BAG_NAME = Convert.ToInt32(ConfigurationManager.AppSettings["BagNameColumnName"]);
-            public static int SEEDS_TO_PLANT = Convert.ToInt32(ConfigurationManager.AppSettings["SeedsToPlantColumnName"]);
-            public static int SEEDS_TO_SAMPLE = Convert.ToInt32(ConfigurationManager.AppSettings["SeedsToSampleColumnName"]);
-            public static int SAMPLES = Convert.ToInt32(ConfigurationManager.AppSettings["SamplesColumnName"]);
-            public static int COMMENT = Convert.ToInt32(ConfigurationManager.AppSettings["CommentColumnName"]);
+            public static string FIELD_NAME = ConfigurationManager.AppSettings["FieldColumnName"];
+            public static string BAG_NAME = ConfigurationManager.AppSettings["BagNameColumnName"];
+            public static string SEEDS_TO_PLANT = ConfigurationManager.AppSettings["SeedsToPlantColumnName"];
+            public static string SEEDS_TO_SAMPLE = ConfigurationManager.AppSettings["SeedsToSampleColumnName"];
+            public static string SAMPLES = ConfigurationManager.AppSettings["SamplesColumnName"];
+            public static string COMMENT = ConfigurationManager.AppSettings["CommentColumnName"];
         }
 
     }
