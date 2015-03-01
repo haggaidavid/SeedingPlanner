@@ -95,7 +95,8 @@
             this.inputExcelFilename.Name = "inputExcelFilename";
             this.inputExcelFilename.Size = new System.Drawing.Size(245, 20);
             this.inputExcelFilename.TabIndex = 2;
-            this.inputExcelFilename.Text = "D:\\Users\\Haggai\\Documents\\GitHub\\HaZera\\HaZera\\bin\\Debug\\input.xlsx";
+            this.inputExcelFilename.Text = "C:\\Users\\haggai.david\\Documents\\Visual Studio 2013\\Projects\\SeedingPlanner\\Seedin" +
+    "gPlanner\\bin\\Debug\\input.xlsx";
             // 
             // groupBox1
             // 

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NPOI.XSSF.UserModel;
 using NPOI.SS.UserModel;
+using NPOI.SS.Util;
 using System.IO;
 
 namespace SeedingPlanner
@@ -145,16 +146,23 @@ namespace SeedingPlanner
 
                 // TODO: create string for the description row
                 string trayDescription = "";
-                //trayDescription += "מגש מספר __TRAY_NUMBER__";
-                //trayDescription += "\nסה'כ __SEEDS_COUNT__ זרעים";
-                //trayDescription += "\nמתוך __BAGS_COUNT__ שקיות זרעים";
-                trayDescription += "#__TRAY_NUMBER__";
-                trayDescription += " __SEEDS_COUNT__ ז'";
-                trayDescription += " __BAGS_COUNT__ ש'";
+                trayDescription += "מגש מספר __TRAY_NUMBER__, ";
+                trayDescription += "סה'כ __SEEDS_COUNT__ זרעים, ";
+                trayDescription += "מתוך __BAGS_COUNT__ שקיות זרעים";
+                //trayDescription += "#__TRAY_NUMBER__";
+                //trayDescription += " __SEEDS_COUNT__ ז'";
+                //trayDescription += " __BAGS_COUNT__ ש'";
 
                 trayDescription = trayDescription.Replace("__TRAY_NUMBER__", (i + 1).ToString());
                 trayDescription = trayDescription.Replace("__SEEDS_COUNT__", tray.SeedsCount.ToString());
                 trayDescription = trayDescription.Replace("__BAGS_COUNT__", bags.Count.ToString());
+
+                row = traysSheet.CreateRow(rowIndex);
+                row.CreateCell(1).SetCellValue(trayDescription);
+                CellRangeAddress trayHeader = new CellRangeAddress(rowIndex, rowIndex, 1, 3);
+                traysSheet.AddMergedRegion(trayHeader);
+
+                rowIndex++;
 
                 for (int b = 0; b < bags.Count; ++b)
                 {
@@ -163,7 +171,8 @@ namespace SeedingPlanner
                     int toRow = bags[b].Item3;
 
                     row = traysSheet.CreateRow(rowIndex);
-                    if (b == 0)
+                    //if (b == 0)
+                    if (false)
                     {
                         ICell cell = row.CreateCell(0);
                         cell.CellStyle = cellStyle;
@@ -171,13 +180,15 @@ namespace SeedingPlanner
                     }
 
                     row.CreateCell(1).SetCellValue(bag.BagName);
-                    row.CreateCell(2).SetCellValue(fromRow);
-                    row.CreateCell(3).SetCellValue(toRow);
+                    row.CreateCell(2).SetCellValue(fromRow+1);
+                    row.CreateCell(3).SetCellValue(toRow+1);
 
                     rowIndex++;
                 }
 
             }
+            traysSheet.AutoSizeColumn(1);
+
 
             try
             {
