@@ -64,5 +64,20 @@ namespace SeedingPlanner
             return seedsAdded;
         }
 
+        public string AsString()
+        {
+            string str = "";
+
+            str += Name;
+            str += ": ";
+            foreach (Tray t in _trays)
+            {
+                str += t.Name;
+                str += ", ";
+            }
+            str += "\n";
+
+            return str;
+        }
     }
 }

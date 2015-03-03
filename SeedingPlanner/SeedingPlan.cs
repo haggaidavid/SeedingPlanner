@@ -22,7 +22,6 @@ namespace SeedingPlanner
 
         public SeedingPlan()
         {
-            //_bags = bags;
             _trays = new List<Tray>();
             _plates = new List<Plate>();
             _bagsOrder = null;
@@ -68,6 +67,18 @@ namespace SeedingPlanner
                     currPlate.AddSamples(currTray, bag, (addedToTray - addedToPlate));
                 }
             }
+
+            // add the last tray
+            if (currTray.SeedsCount > 0)
+            {
+                _trays.Add(currTray);
+            }
+
+            // add the last plate
+            if (currPlate.SeedsCount > 0)
+            {
+                _plates.Add(currPlate);
+            }
         }
 
         public int Cost(int trayCost, int sampleCost)
@@ -91,6 +102,17 @@ namespace SeedingPlanner
             foreach (Tray t in _trays)
             {
                 Console.WriteLine(t.AsString());
+            }
+        }
+
+        public void WritePlates()
+        {
+            Console.WriteLine("");
+            Console.WriteLine("{0} Plates", PlateCount);
+            Console.WriteLine("");
+            foreach (Plate p in _plates)
+            {
+                Console.WriteLine(p.AsString());
             }
         }
 
@@ -121,16 +143,27 @@ namespace SeedingPlanner
                 row.CreateCell(Config.ColumnNumber.FIELD_NAME).SetCellValue(bag.FieldName);
                 row.CreateCell(Config.ColumnNumber.BAG_NAME).SetCellValue(bag.BagName);
                 row.CreateCell(Config.ColumnNumber.SEEDS_TO_PLANT).SetCellValue(bag.SeedsToPlant);
-                row.CreateCell(Config.ColumnNumber.SEEDS_TO_SAMPLE).SetCellValue(bag.SeedsToSample);
+                if (bag.SeedsToSample > 0)
+                {
+                    row.CreateCell(Config.ColumnNumber.SEEDS_TO_SAMPLE).SetCellValue(bag.SeedsToSample);
+                }
                 row.CreateCell(Config.ColumnNumber.SAMPLES).SetCellValue(string.Join(",", bag.Samples.ToArray()));
                 row.CreateCell(Config.ColumnNumber.COMMENT).SetCellValue(bag.Comment);
             }
+            bagsSheet.AutoSizeColumn(Config.ColumnNumber.BAG_NAME);
+            bagsSheet.AutoSizeColumn(Config.ColumnNumber.SAMPLES);
+            bagsSheet.AutoSizeColumn(Config.ColumnNumber.COMMENT);
 
             ISheet traysSheet = workbook.CreateSheet("Trays");
             traysSheet.IsRightToLeft = true;
+            traysSheet.CreateFreezePane(0, 1);
             rowIndex = 0;
 
-            // TODO: create header row
+            // create header row
+            row = traysSheet.CreateRow(rowIndex);
+            row.CreateCell(Config.ColumnNumber.BAG_NAME_IN_TRAY).SetCellValue(Config.ColumnName.BAG_NAME);
+            row.CreateCell(Config.ColumnNumber.FROM_ROW).SetCellValue(Config.ColumnName.FROM_ROW_NAME);
+            row.CreateCell(Config.ColumnNumber.TO_ROW).SetCellValue(Config.ColumnName.TO_ROW_NAME);
 
             rowIndex++;
 
@@ -144,22 +177,15 @@ namespace SeedingPlanner
                 ICellStyle cellStyle = workbook.CreateCellStyle();
                 cellStyle.WrapText = true;
 
-                // TODO: create string for the description row
-                string trayDescription = "";
-                trayDescription += "מגש מספר __TRAY_NUMBER__, ";
-                trayDescription += "סה'כ __SEEDS_COUNT__ זרעים, ";
-                trayDescription += "מתוך __BAGS_COUNT__ שקיות זרעים";
-                //trayDescription += "#__TRAY_NUMBER__";
-                //trayDescription += " __SEEDS_COUNT__ ז'";
-                //trayDescription += " __BAGS_COUNT__ ש'";
-
+                // create string for the description row
+                string trayDescription = Config.SheetFormat.TRAY_DESCRIPTION_FORMAT;
                 trayDescription = trayDescription.Replace("__TRAY_NUMBER__", (i + 1).ToString());
                 trayDescription = trayDescription.Replace("__SEEDS_COUNT__", tray.SeedsCount.ToString());
                 trayDescription = trayDescription.Replace("__BAGS_COUNT__", bags.Count.ToString());
 
                 row = traysSheet.CreateRow(rowIndex);
-                row.CreateCell(1).SetCellValue(trayDescription);
-                CellRangeAddress trayHeader = new CellRangeAddress(rowIndex, rowIndex, 1, 3);
+                row.CreateCell(Config.ColumnNumber.TRAY_DESCRIPTION).SetCellValue(trayDescription);
+                CellRangeAddress trayHeader = new CellRangeAddress(rowIndex, rowIndex, Config.ColumnNumber.BAG_NAME_IN_TRAY, Config.ColumnNumber.TO_ROW);
                 traysSheet.AddMergedRegion(trayHeader);
 
                 rowIndex++;
@@ -171,14 +197,6 @@ namespace SeedingPlanner
                     int toRow = bags[b].Item3;
 
                     row = traysSheet.CreateRow(rowIndex);
-                    //if (b == 0)
-                    if (false)
-                    {
-                        ICell cell = row.CreateCell(0);
-                        cell.CellStyle = cellStyle;
-                        cell.SetCellValue(trayDescription);
-                    }
-
                     row.CreateCell(1).SetCellValue(bag.BagName);
                     row.CreateCell(2).SetCellValue(fromRow+1);
                     row.CreateCell(3).SetCellValue(toRow+1);
@@ -187,7 +205,7 @@ namespace SeedingPlanner
                 }
 
             }
-            traysSheet.AutoSizeColumn(1);
+            traysSheet.AutoSizeColumn(Config.ColumnNumber.BAG_NAME_IN_TRAY);
 
 
             try
