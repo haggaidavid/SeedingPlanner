@@ -164,6 +164,8 @@ namespace SeedingPlanner
             row.CreateCell(Config.ColumnNumber.BAG_NAME_IN_TRAY).SetCellValue(Config.ColumnName.BAG_NAME);
             row.CreateCell(Config.ColumnNumber.FROM_ROW).SetCellValue(Config.ColumnName.FROM_ROW_NAME);
             row.CreateCell(Config.ColumnNumber.TO_ROW).SetCellValue(Config.ColumnName.TO_ROW_NAME);
+            row.CreateCell(Config.ColumnNumber.TO_ROW + 1).SetCellValue("amidut");
+            row.CreateCell(Config.ColumnNumber.TO_ROW + 2).SetCellValue("PCR");
 
             rowIndex++;
 
@@ -200,6 +202,8 @@ namespace SeedingPlanner
                     row.CreateCell(1).SetCellValue(bag.BagName);
                     row.CreateCell(2).SetCellValue(fromRow+1);
                     row.CreateCell(3).SetCellValue(toRow+1);
+                    row.CreateCell(4).SetCellValue(bag.SeedsToSample);
+                    row.CreateCell(5).SetCellValue(String.Join(",", bag.Samples));
 
                     rowIndex++;
                 }
