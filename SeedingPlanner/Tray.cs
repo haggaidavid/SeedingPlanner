@@ -73,6 +73,7 @@ namespace SeedingPlanner
             }
             rowsAdded = (toRow - fromRow) + 1;
             _bags.Add(new Tuple<Bag, int, int>(bag, fromRow, toRow));
+            bag.Trays.Add(new Tuple<Tray, int, int>(this, fromRow, toRow));
             _nextAvailableRow += rowsAdded;
 
             if (!isFull())

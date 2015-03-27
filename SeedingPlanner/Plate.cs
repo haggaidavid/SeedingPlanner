@@ -59,6 +59,7 @@ namespace SeedingPlanner
                 _seedsCount += seedsAdded;
                 _samples.UnionWith(bag.Samples);
                 _trays.Add(tray);
+                bag.Plates.Add(this);
             }
 
             return seedsAdded;
