@@ -20,16 +20,23 @@ namespace SeedingPlanner
         // samples to take from this tray
         private SortedSet<string> _samples;
         public int NumberOfSamples { get { return _samples.Count; } }
+        public string Samples
+        {
+            get
+            {
+                return string.Join(",", _samples);
+            }
+        }
 
-        private HashSet<Tray> _trays;
-
+        private List<Bag> _bags;
+        public List<Bag> Bags { get { return _bags; } }
 
         public Plate(string name)
         {
             Name = name;
             _seedsCount = 0;
             _samples = new SortedSet<string>();
-            _trays = new HashSet<Tray>();
+            _bags = new List<Bag>();
         }
 
         public bool isFull()
@@ -37,16 +44,16 @@ namespace SeedingPlanner
             return _seedsCount >= SAMPLES_COUNT;
         }
         
-        public int AddSamples(Tray tray, Bag bag)
+        public int AddSamples(Bag bag)
         {
-            return AddSamples(tray, bag, bag.SeedsToSample);
+            return AddSamples(bag, bag.SeedsToSample);
         }
 
-        public int AddSamples(Tray tray, Bag bag, int seedsToAdd)
+        public int AddSamples(Bag bag, int seedsToAdd)
         {
             int seedsAdded = 0;
 
-            if (seedsToAdd > 0)
+            if (seedsToAdd > 0 && bag.SeedsToSample > 0)
             {
                 if (seedsToAdd <= (SAMPLES_COUNT - _seedsCount))
                 {
@@ -58,8 +65,8 @@ namespace SeedingPlanner
                 }
                 _seedsCount += seedsAdded;
                 _samples.UnionWith(bag.Samples);
-                _trays.Add(tray);
-                bag.Plates.Add(this);
+                _bags.Add(bag);
+                bag.Plates.Add(new Tuple<Plate, int>(this, seedsAdded));
             }
 
             return seedsAdded;
@@ -71,9 +78,9 @@ namespace SeedingPlanner
 
             str += Name;
             str += ": ";
-            foreach (Tray t in _trays)
+            foreach (Bag b in _bags)
             {
-                str += t.Name;
+                str += b.BagName;
                 str += ", ";
             }
             str += "\n";

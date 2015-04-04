@@ -34,8 +34,8 @@ namespace SeedingPlanner
             _bagsOrder = bagsOrder;
 
             // populate trays and plates according to ordering
-            Tray currTray = new Tray("tray " + _trays.Count);
-            Plate currPlate = new Plate("plate " + _plates.Count);
+            Tray currTray = new Tray("" + _trays.Count);
+            Plate currPlate = new Plate(_plates.Count.ToString());
             for (int i = 0; i < BagsInventory.Count; ++i)
             {
                 Bag bag = BagsInventory.GetAt(_bagsOrder[i]);
@@ -47,24 +47,17 @@ namespace SeedingPlanner
                 {
                     // tray is full, take another tray
                     _trays.Add(currTray);
-                    addedToPlate = currPlate.AddSamples(currTray, bag, addedToTray);
-                    if (addedToPlate < addedToTray)
-                    {
-                        _plates.Add(currPlate);
-                        currPlate = new Plate("plate " + _plates.Count);
-                        currPlate.AddSamples(currTray, bag, (addedToTray - addedToPlate));
-                    }
-
-                    currTray = new Tray("tray " + _trays.Count);
+                    currTray = new Tray("" + _trays.Count);
                     currTray.AddSeedsFromBag(bag, bag.SeedsToPlant - addedToTray);
                 }
 
-                addedToPlate = currPlate.AddSamples(currTray, bag, addedToTray);
-                if (addedToPlate < addedToTray)
+                addedToPlate = currPlate.AddSamples(bag);
+                if (addedToPlate < bag.SeedsToSample)
                 {
+                    // plate is full, take another plate
                     _plates.Add(currPlate);
-                    currPlate = new Plate("plate " + _plates.Count);
-                    currPlate.AddSamples(currTray, bag, (addedToTray - addedToPlate));
+                    currPlate = new Plate("" + _plates.Count);
+                    currPlate.AddSamples(bag, (bag.SeedsToSample - addedToPlate));
                 }
             }
 
@@ -211,6 +204,59 @@ namespace SeedingPlanner
             }
             traysSheet.AutoSizeColumn(Config.ColumnNumber.BAG_NAME_IN_TRAY);
 
+            ISheet platesSheet = workbook.CreateSheet("Plates");
+            platesSheet.IsRightToLeft = true;
+            platesSheet.CreateFreezePane(0, 1);
+            rowIndex = 0;
+
+
+            // create header row
+            row = platesSheet.CreateRow(rowIndex);
+            row.CreateCell(1).SetCellValue("tray");
+            row.CreateCell(2).SetCellValue("rows");
+            row.CreateCell(3).SetCellValue("bag");
+            row.CreateCell(4).SetCellValue("count");
+            row.CreateCell(5).SetCellValue("PCR");
+
+            for (int i = 0; i < PlateCount; ++i)
+            {
+                // one space row between plates
+                rowIndex++;
+
+                Plate plate = _plates[i];
+                string plateDescription = "";
+                plateDescription = "פלטה __PLATE_NAME__, __SEEDS_COUNT__ זרעים מתוך __TRAYS_COUNT__ מגשים, דגימות: __SAMPLES__";
+                plateDescription = plateDescription.Replace("__PLATE_NAME__", plate.Name);
+                plateDescription = plateDescription.Replace("__SEEDS_COUNT__", plate.SeedsCount.ToString());
+                //plateDescription = plateDescription.Replace("__TRAYS_COUNT__", plate.Trays.Count.ToString());
+                plateDescription = plateDescription.Replace("__SAMPLES__", plate.Samples);
+
+                row = platesSheet.CreateRow(rowIndex);
+                row.CreateCell(1).SetCellValue(plateDescription);
+                CellRangeAddress plateHeader = new CellRangeAddress(rowIndex, rowIndex, 1, 5);
+                platesSheet.AddMergedRegion(plateHeader);
+
+                rowIndex++;
+
+                foreach (Bag b in plate.Bags)
+                {
+                    foreach (Tuple<Plate, int> tpl in b.Plates)
+                    {
+                        Plate p = tpl.Item1;
+                        int count = tpl.Item2;
+                        if (p == plate)
+                        {
+                            row = platesSheet.CreateRow(rowIndex);
+                            row.CreateCell(3).SetCellValue(b.BagName);
+                            row.CreateCell(4).SetCellValue(count);
+                            row.CreateCell(5).SetCellValue(string.Join(",", b.Samples));
+
+                            rowIndex++;
+                        }
+                    }
+                }
+
+            }
 
             try
             {

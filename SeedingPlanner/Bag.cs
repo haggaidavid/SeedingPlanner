@@ -18,7 +18,7 @@ namespace SeedingPlanner
         public int SeedsToSample { set; get; }
         public SortedSet<string> Samples { set; get; }
         public List<Tuple<Tray, int, int>> Trays { set; get; }
-        public List<Plate> Plates { set; get; }
+        public List<Tuple<Plate, int>> Plates { set; get; }
 
         public Bag()
         {
@@ -29,7 +29,7 @@ namespace SeedingPlanner
             SeedsToSample = 0;
             Samples = null;
             Trays = new List<Tuple<Tray, int, int>>();
-            Plates = new List<Plate>();
+            Plates = new List<Tuple<Plate, int>>();
         }
 
         public Bag(string name, string field, int toPlant, int toSample, string samples, string comment)
@@ -55,7 +55,7 @@ namespace SeedingPlanner
             }
 
             Trays = new List<Tuple<Tray, int, int>>();
-            Plates = new List<Plate>();
+            Plates = new List<Tuple<Plate, int>>();
         }
     }
 }
