@@ -9,14 +9,11 @@ namespace SeedingPlanner
 {
     class Plate
     {
-        // configuration settings
-        public static int SAMPLES_COUNT = Convert.ToInt32(ConfigurationManager.AppSettings["Plate_SamplesCount"]);
-
         public string Name { get; set; }
 
         private int _seedsCount;
         public int SeedsCount { get { return _seedsCount; } }
-        
+
         // samples to take from this tray
         private SortedSet<string> _samples;
         public int NumberOfSamples { get { return _samples.Count; } }
@@ -28,64 +25,64 @@ namespace SeedingPlanner
             }
         }
 
-        private List<Bag> _bags;
-        public List<Bag> Bags { get { return _bags; } }
+        private List<SampleGroup> _sampleGroups;
+        public List<SampleGroup> SampleGroups { get { return _sampleGroups; } }
+
+        public int TraysCount
+        {
+            get
+            {
+                SortedSet<string> trays = new SortedSet<string>();
+                foreach (SampleGroup sg in _sampleGroups)
+                {
+                    trays.Add(sg.Seeding.Tray.Name);
+                }
+                return trays.Count;
+            }
+        }
+
 
         public Plate(string name)
         {
             Name = name;
             _seedsCount = 0;
             _samples = new SortedSet<string>();
-            _bags = new List<Bag>();
+            _sampleGroups = new List<SampleGroup>();
         }
 
         public bool isFull()
         {
-            return _seedsCount >= SAMPLES_COUNT;
-        }
-        
-        public int AddSamples(Bag bag)
-        {
-            return AddSamples(bag, bag.SeedsToSample);
+            return _seedsCount >= Config.Plate.NumberOfSamples;
         }
 
-        public int AddSamples(Bag bag, int seedsToAdd)
+        public SampleGroup AddSamples(Seeding seeding, int seedsToAdd)
         {
             int seedsAdded = 0;
+            SampleGroup sg = null;
 
-            if (seedsToAdd > 0 && bag.SeedsToSample > 0)
+            if (!isFull())
             {
-                if (seedsToAdd <= (SAMPLES_COUNT - _seedsCount))
+                if (seedsToAdd > 0 && seeding.Bag.SeedsToSample > 0)
                 {
-                    seedsAdded = seedsToAdd;
+                    if (seedsToAdd <= (Config.Plate.NumberOfSamples - _seedsCount))
+                    {
+                        seedsAdded = seedsToAdd;
+                    }
+                    else
+                    {
+                        seedsAdded = Config.Plate.NumberOfSamples - _seedsCount;
+                    }
+
+                    _seedsCount += seedsAdded;
+                    _samples.UnionWith(seeding.Bag.Samples);
+
+                    sg = new SampleGroup(seeding, seedsAdded);
+                    _sampleGroups.Add(sg);
                 }
-                else
-                {
-                    seedsAdded = SAMPLES_COUNT - _seedsCount;
-                }
-                _seedsCount += seedsAdded;
-                _samples.UnionWith(bag.Samples);
-                _bags.Add(bag);
-                bag.Plates.Add(new Tuple<Plate, int>(this, seedsAdded));
             }
 
-            return seedsAdded;
+            return sg;
         }
 
-        public string AsString()
-        {
-            string str = "";
-
-            str += Name;
-            str += ": ";
-            foreach (Bag b in _bags)
-            {
-                str += b.BagName;
-                str += ", ";
-            }
-            str += "\n";
-
-            return str;
-        }
     }
 }

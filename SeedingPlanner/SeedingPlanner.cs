@@ -78,8 +78,6 @@ namespace SeedingPlanner
                 int cost = plan.Cost(Convert.ToInt32(trayCost.Value), Convert.ToInt32(sampleCost.Value));
                 int trays = plan.TrayCount;
                 int plates = plan.PlateCount;
-                plan.WriteTrays();
-                plan.WritePlates();
                 plan.SaveToExcel(filename + ".new.xlsx");
             }
             else

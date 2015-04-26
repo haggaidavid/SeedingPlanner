@@ -9,39 +9,86 @@ namespace SeedingPlanner
 {
     class Config
     {
-        public class ColumnNumber
+        public class Tray
         {
-            // bags sheet
-            public static int FIELD_NAME = Convert.ToInt32(ConfigurationManager.AppSettings["FieldColumnNumber"]);
-            public static int BAG_NAME = Convert.ToInt32(ConfigurationManager.AppSettings["BagNameColumnNumber"]);
-            public static int SEEDS_TO_PLANT = Convert.ToInt32(ConfigurationManager.AppSettings["SeedsToPlantColumnNumber"]);
-            public static int SEEDS_TO_SAMPLE = Convert.ToInt32(ConfigurationManager.AppSettings["SeedsToSampleColumnNumber"]);
-            public static int SAMPLES = Convert.ToInt32(ConfigurationManager.AppSettings["SamplesColumnNumber"]);
-            public static int COMMENT = Convert.ToInt32(ConfigurationManager.AppSettings["CommentColumnNumber"]);
-
-            // trays sheet
-            public static int TRAY_DESCRIPTION = Convert.ToInt32(ConfigurationManager.AppSettings["TrayDescriptionColumnNumber"]);
-            public static int BAG_NAME_IN_TRAY = Convert.ToInt32(ConfigurationManager.AppSettings["BagNameInTrayColumnNumber"]);
-            public static int FROM_ROW = Convert.ToInt32(ConfigurationManager.AppSettings["FromRowColumnNumber"]);
-            public static int TO_ROW = Convert.ToInt32(ConfigurationManager.AppSettings["ToRowColumnNumber"]);
+            public static int NumberOfRows = 17;
+            public static int NumberOfCellsInRow = 11;
         }
 
-        public class ColumnName
+        public class Plate
         {
-            public static string FIELD_NAME = ConfigurationManager.AppSettings["FieldColumnName"];
-            public static string BAG_NAME = ConfigurationManager.AppSettings["BagNameColumnName"];
-            public static string SEEDS_TO_PLANT = ConfigurationManager.AppSettings["SeedsToPlantColumnName"];
-            public static string SEEDS_TO_SAMPLE = ConfigurationManager.AppSettings["SeedsToSampleColumnName"];
-            public static string SAMPLES = ConfigurationManager.AppSettings["SamplesColumnName"];
-            public static string COMMENT = ConfigurationManager.AppSettings["CommentColumnName"];
-
-            public static string FROM_ROW_NAME = ConfigurationManager.AppSettings["FrowRowName"];
-            public static string TO_ROW_NAME = ConfigurationManager.AppSettings["ToRowName"];
+            public static int NumberOfSamples = 92;
         }
 
-        public class SheetFormat
+        public class Excel
         {
-            public static string TRAY_DESCRIPTION_FORMAT = ConfigurationManager.AppSettings["TrayDescriptionFormat"];
+            public class ColumnInfo
+            {
+                public string Name;
+                public int Index;
+            }
+
+            public class BagsSheet
+            {
+                public class Columns
+                {
+                    public static ColumnInfo FieldName = new ColumnInfo { Name = "Field name", Index = 1 };
+                    public static ColumnInfo BagName = new ColumnInfo { Name = "Bag Name", Index = 2 };
+                    public static ColumnInfo SeedsToPlant = new ColumnInfo { Name = "ToPlant", Index = 3 };
+                    public static ColumnInfo SeedsToSample = new ColumnInfo { Name = "ToSample", Index = 4 };
+                    public static ColumnInfo Samples = new ColumnInfo { Name = "Samples", Index = 5 };
+                    public static ColumnInfo Comment = new ColumnInfo { Name = "Comment", Index = 6 };
+                }
+
+                public static string SheetName = "Seed Bags";
+            }
+
+            public class SeedingSheet
+            {
+                public class Columns
+                {
+                    public static ColumnInfo BagName = new ColumnInfo { Name = "Bag Name", Index = 1 };
+                    public static ColumnInfo FromRow = new ColumnInfo { Name = "From", Index = 2 };
+                    public static ColumnInfo ToRow = new ColumnInfo { Name = "To", Index = 3 };
+                    public static ColumnInfo SeedsToSample = new ColumnInfo { Name = "ToSample", Index = 4 };
+                    public static ColumnInfo PCR = new ColumnInfo { Name = "Samples", Index = 5 };
+                }
+
+                public static string SheetName = "Seeding";
+                public static string DescriptionFormat = "מגש מספר __TRAY_NUMBER__, סה'כ __SEEDS_COUNT__ זרעים";
+            }
+
+            public class SamplingSheet
+            {
+                public class Columns
+                {
+                    public static ColumnInfo Tray = new ColumnInfo { Name = "Tray", Index = 1 };
+                    public static ColumnInfo Rows = new ColumnInfo { Name = "Rows", Index = 2 };
+                    public static ColumnInfo BagName = new ColumnInfo { Name = "Bag Name", Index = 3 };
+                    public static ColumnInfo Count = new ColumnInfo { Name = "Count", Index = 4 };
+                    public static ColumnInfo PCR = new ColumnInfo { Name = "PCR", Index = 5 };
+                }
+
+                public static string SheetName = "Sampling";
+                public static string DecriptionFormat = "פלטה __PLATE_NAME__, __SEEDS_COUNT__ זרעים מתוך __TRAYS_COUNT__ מגשים, דגימות: __SAMPLES__";
+                public static string RowFormat = "שורה __ROW_NUMBER__";
+                public static string RowsFormat = "שורות __FROM_ROW__-__TO_ROW__";
+            }
         }
+
+        public void Init()
+        {
+        }
+
+        public void Save(string filename = "settings.json")
+        {
+
+        }
+
+        public void Load(string filename = "settings.json")
+        {
+
+        }
+
     }
 }

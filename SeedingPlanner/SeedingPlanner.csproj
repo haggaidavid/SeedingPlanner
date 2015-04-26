@@ -64,7 +64,10 @@
     <Compile Include="Bag.cs" />
     <Compile Include="BagsInventory.cs" />
     <Compile Include="Config.cs" />
+    <Compile Include="ExcelWriter.cs" />
     <Compile Include="Plate.cs" />
+    <Compile Include="SampleGroup.cs" />
+    <Compile Include="Seeding.cs" />
     <Compile Include="SeedingPlan.cs" />
     <Compile Include="SeedingPlanner.cs">
       <SubType>Form</SubType>
