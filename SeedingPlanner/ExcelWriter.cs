@@ -46,19 +46,19 @@ namespace SeedingPlanner
 
         private void InitializeBagsSheet()
         {
-            _bagsSheet = _workbook.CreateSheet(Config.Excel.BagsSheet.SheetName);
+            _bagsSheet = _workbook.CreateSheet(Config.Application.Excel.BagsSheet.SheetName);
             _bagsSheet.IsRightToLeft = true;
             _bagsSheet.CreateFreezePane(0, 1);
             _bagsSheet_rowIndex = 0;
 
             // header row
             IRow headerRow = _bagsSheet.CreateRow(_bagsSheet_rowIndex);
-            headerRow.CreateCell(Config.Excel.BagsSheet.Columns.FieldName.Index).SetCellValue(Config.Excel.BagsSheet.Columns.FieldName.Name);
-            headerRow.CreateCell(Config.Excel.BagsSheet.Columns.BagName.Index).SetCellValue(Config.Excel.BagsSheet.Columns.BagName.Name);
-            headerRow.CreateCell(Config.Excel.BagsSheet.Columns.SeedsToPlant.Index).SetCellValue(Config.Excel.BagsSheet.Columns.SeedsToPlant.Name);
-            headerRow.CreateCell(Config.Excel.BagsSheet.Columns.SeedsToSample.Index).SetCellValue(Config.Excel.BagsSheet.Columns.SeedsToSample.Name);
-            headerRow.CreateCell(Config.Excel.BagsSheet.Columns.Samples.Index).SetCellValue(Config.Excel.BagsSheet.Columns.Samples.Name);
-            headerRow.CreateCell(Config.Excel.BagsSheet.Columns.Comment.Index).SetCellValue(Config.Excel.BagsSheet.Columns.Comment.Name);
+            headerRow.CreateCell(Config.Application.Excel.BagsSheet.Columns.FieldName.Index).SetCellValue(Config.Application.Excel.BagsSheet.Columns.FieldName.Name);
+            headerRow.CreateCell(Config.Application.Excel.BagsSheet.Columns.BagName.Index).SetCellValue(Config.Application.Excel.BagsSheet.Columns.BagName.Name);
+            headerRow.CreateCell(Config.Application.Excel.BagsSheet.Columns.SeedsToPlant.Index).SetCellValue(Config.Application.Excel.BagsSheet.Columns.SeedsToPlant.Name);
+            headerRow.CreateCell(Config.Application.Excel.BagsSheet.Columns.SeedsToSample.Index).SetCellValue(Config.Application.Excel.BagsSheet.Columns.SeedsToSample.Name);
+            headerRow.CreateCell(Config.Application.Excel.BagsSheet.Columns.Samples.Index).SetCellValue(Config.Application.Excel.BagsSheet.Columns.Samples.Name);
+            headerRow.CreateCell(Config.Application.Excel.BagsSheet.Columns.Comment.Index).SetCellValue(Config.Application.Excel.BagsSheet.Columns.Comment.Name);
 
             for (int i = headerRow.FirstCellNum; i < headerRow.LastCellNum; i++)
             {
@@ -72,30 +72,30 @@ namespace SeedingPlanner
 
             IRow row = _bagsSheet.CreateRow(_bagsSheet_rowIndex);
 
-            row.CreateCell(Config.Excel.BagsSheet.Columns.FieldName.Index).SetCellValue(bag.FieldName);
-            row.CreateCell(Config.Excel.BagsSheet.Columns.BagName.Index).SetCellValue(bag.BagName);
-            row.CreateCell(Config.Excel.BagsSheet.Columns.SeedsToPlant.Index).SetCellValue(bag.SeedsToPlant);
+            row.CreateCell(Config.Application.Excel.BagsSheet.Columns.FieldName.Index).SetCellValue(bag.FieldName);
+            row.CreateCell(Config.Application.Excel.BagsSheet.Columns.BagName.Index).SetCellValue(bag.BagName);
+            row.CreateCell(Config.Application.Excel.BagsSheet.Columns.SeedsToPlant.Index).SetCellValue(bag.SeedsToPlant);
             if (bag.SeedsToSample > 0)
             {
-                row.CreateCell(Config.Excel.BagsSheet.Columns.SeedsToSample.Index).SetCellValue(bag.SeedsToSample);
+                row.CreateCell(Config.Application.Excel.BagsSheet.Columns.SeedsToSample.Index).SetCellValue(bag.SeedsToSample);
             }
-            row.CreateCell(Config.Excel.BagsSheet.Columns.Samples.Index).SetCellValue(string.Join(",", bag.Samples.ToArray()));
-            row.CreateCell(Config.Excel.BagsSheet.Columns.Comment.Index).SetCellValue(bag.Comment);
+            row.CreateCell(Config.Application.Excel.BagsSheet.Columns.Samples.Index).SetCellValue(string.Join(",", bag.Samples.ToArray()));
+            row.CreateCell(Config.Application.Excel.BagsSheet.Columns.Comment.Index).SetCellValue(bag.Comment);
         }
 
         private void InitializeSeedingSheet()
         {
-            _seedingSheet = _workbook.CreateSheet(Config.Excel.SeedingSheet.SheetName);
+            _seedingSheet = _workbook.CreateSheet(Config.Application.Excel.SeedingSheet.SheetName);
             _seedingSheet.IsRightToLeft = true;
             _seedingSheet.CreateFreezePane(0, 1);
             _seedingSheet_rowIndex = 0;
 
             IRow headerRow = _seedingSheet.CreateRow(_seedingSheet_rowIndex);
-            headerRow.CreateCell(Config.Excel.SeedingSheet.Columns.BagName.Index).SetCellValue(Config.Excel.SeedingSheet.Columns.BagName.Name);
-            headerRow.CreateCell(Config.Excel.SeedingSheet.Columns.FromRow.Index).SetCellValue(Config.Excel.SeedingSheet.Columns.FromRow.Name);
-            headerRow.CreateCell(Config.Excel.SeedingSheet.Columns.ToRow.Index).SetCellValue(Config.Excel.SeedingSheet.Columns.ToRow.Name);
-            headerRow.CreateCell(Config.Excel.SeedingSheet.Columns.SeedsToSample.Index).SetCellValue(Config.Excel.SeedingSheet.Columns.SeedsToSample.Name);
-            headerRow.CreateCell(Config.Excel.SeedingSheet.Columns.PCR.Index).SetCellValue(Config.Excel.SeedingSheet.Columns.PCR.Name);
+            headerRow.CreateCell(Config.Application.Excel.SeedingSheet.Columns.BagName.Index).SetCellValue(Config.Application.Excel.SeedingSheet.Columns.BagName.Name);
+            headerRow.CreateCell(Config.Application.Excel.SeedingSheet.Columns.FromRow.Index).SetCellValue(Config.Application.Excel.SeedingSheet.Columns.FromRow.Name);
+            headerRow.CreateCell(Config.Application.Excel.SeedingSheet.Columns.ToRow.Index).SetCellValue(Config.Application.Excel.SeedingSheet.Columns.ToRow.Name);
+            headerRow.CreateCell(Config.Application.Excel.SeedingSheet.Columns.SeedsToSample.Index).SetCellValue(Config.Application.Excel.SeedingSheet.Columns.SeedsToSample.Name);
+            headerRow.CreateCell(Config.Application.Excel.SeedingSheet.Columns.PCR.Index).SetCellValue(Config.Application.Excel.SeedingSheet.Columns.PCR.Name);
 
             for (int i = headerRow.FirstCellNum; i < headerRow.LastCellNum; i++)
             {
@@ -110,15 +110,15 @@ namespace SeedingPlanner
             _seedingSheet_rowIndex++;
             IRow row = _seedingSheet.CreateRow(_seedingSheet_rowIndex);
 
-            string description = Config.Excel.SeedingSheet.DescriptionFormat;
+            string description = Config.Application.Excel.SeedingSheet.DescriptionFormat;
             description = description.Replace("__TRAY_NUMBER__", tray.Name);
             description = description.Replace("__SEEDS_COUNT__", tray.SeedsCount.ToString());
             description = description.Replace("__BAGS_COUNT__", tray.BagsCount.ToString());
-            row.CreateCell(Config.Excel.SeedingSheet.Columns.BagName.Index).SetCellValue(description);
+            row.CreateCell(Config.Application.Excel.SeedingSheet.Columns.BagName.Index).SetCellValue(description);
 
             CellRangeAddress trayDescriptionRange = new CellRangeAddress(_seedingSheet_rowIndex, _seedingSheet_rowIndex,
-                Config.Excel.SeedingSheet.Columns.BagName.Index,
-                Config.Excel.SeedingSheet.Columns.PCR.Index);
+                Config.Application.Excel.SeedingSheet.Columns.BagName.Index,
+                Config.Application.Excel.SeedingSheet.Columns.PCR.Index);
             _seedingSheet.AddMergedRegion(trayDescriptionRange);
 
             foreach (Seeding seeding in tray.Seedings)
@@ -132,26 +132,26 @@ namespace SeedingPlanner
             _seedingSheet_rowIndex++;
             IRow row = _seedingSheet.CreateRow(_seedingSheet_rowIndex);
 
-            row.CreateCell(Config.Excel.SeedingSheet.Columns.BagName.Index).SetCellValue(seeding.Bag.BagName);
-            row.CreateCell(Config.Excel.SeedingSheet.Columns.FromRow.Index).SetCellValue(seeding.FromRow);
-            row.CreateCell(Config.Excel.SeedingSheet.Columns.ToRow.Index).SetCellValue(seeding.ToRow);
-            row.CreateCell(Config.Excel.SeedingSheet.Columns.SeedsToSample.Index).SetCellValue(seeding.Count);
-            row.CreateCell(Config.Excel.SeedingSheet.Columns.PCR.Index).SetCellValue(string.Join(",", seeding.Bag.Samples));
+            row.CreateCell(Config.Application.Excel.SeedingSheet.Columns.BagName.Index).SetCellValue(seeding.Bag.BagName);
+            row.CreateCell(Config.Application.Excel.SeedingSheet.Columns.FromRow.Index).SetCellValue(seeding.FromRow);
+            row.CreateCell(Config.Application.Excel.SeedingSheet.Columns.ToRow.Index).SetCellValue(seeding.ToRow);
+            row.CreateCell(Config.Application.Excel.SeedingSheet.Columns.SeedsToSample.Index).SetCellValue(seeding.Count);
+            row.CreateCell(Config.Application.Excel.SeedingSheet.Columns.PCR.Index).SetCellValue(string.Join(",", seeding.Bag.Samples));
         }
 
         private void InitializeSamplingSheet()
         {
-            _samplingSheet = _workbook.CreateSheet(Config.Excel.SamplingSheet.SheetName);
+            _samplingSheet = _workbook.CreateSheet(Config.Application.Excel.SamplingSheet.SheetName);
             _samplingSheet.IsRightToLeft = true;
             _samplingSheet.CreateFreezePane(0, 1);
             _samplingSheet_rowIndex = 0;
 
             IRow headerRow = _samplingSheet.CreateRow(_samplingSheet_rowIndex);
-            headerRow.CreateCell(Config.Excel.SamplingSheet.Columns.Tray.Index).SetCellValue(Config.Excel.SamplingSheet.Columns.Tray.Name);
-            headerRow.CreateCell(Config.Excel.SamplingSheet.Columns.Rows.Index).SetCellValue(Config.Excel.SamplingSheet.Columns.Rows.Name);
-            headerRow.CreateCell(Config.Excel.SamplingSheet.Columns.BagName.Index).SetCellValue(Config.Excel.SamplingSheet.Columns.BagName.Name);
-            headerRow.CreateCell(Config.Excel.SamplingSheet.Columns.Count.Index).SetCellValue(Config.Excel.SamplingSheet.Columns.Count.Name);
-            headerRow.CreateCell(Config.Excel.SamplingSheet.Columns.PCR.Index).SetCellValue(Config.Excel.SamplingSheet.Columns.PCR.Name);
+            headerRow.CreateCell(Config.Application.Excel.SamplingSheet.Columns.Tray.Index).SetCellValue(Config.Application.Excel.SamplingSheet.Columns.Tray.Name);
+            headerRow.CreateCell(Config.Application.Excel.SamplingSheet.Columns.Rows.Index).SetCellValue(Config.Application.Excel.SamplingSheet.Columns.Rows.Name);
+            headerRow.CreateCell(Config.Application.Excel.SamplingSheet.Columns.BagName.Index).SetCellValue(Config.Application.Excel.SamplingSheet.Columns.BagName.Name);
+            headerRow.CreateCell(Config.Application.Excel.SamplingSheet.Columns.Count.Index).SetCellValue(Config.Application.Excel.SamplingSheet.Columns.Count.Name);
+            headerRow.CreateCell(Config.Application.Excel.SamplingSheet.Columns.PCR.Index).SetCellValue(Config.Application.Excel.SamplingSheet.Columns.PCR.Name);
 
             for (int i = headerRow.FirstCellNum; i < headerRow.LastCellNum; i++)
             {
@@ -167,17 +167,17 @@ namespace SeedingPlanner
             IRow row = _samplingSheet.CreateRow(_samplingSheet_rowIndex);
 
             int traysCount = plate.TraysCount;
-            string description = Config.Excel.SamplingSheet.DecriptionFormat;
+            string description = Config.Application.Excel.SamplingSheet.DecriptionFormat;
             description = description.Replace("__PLATE_NAME__", plate.Name);
             description = description.Replace("__SEEDS_COUNT__", plate.SeedsCount.ToString());
             description = description.Replace("__SAMPLES__", plate.Samples);
             description = description.Replace("__TRAYS_COUNT__", traysCount.ToString());
-            
-            row.CreateCell(Config.Excel.SamplingSheet.Columns.Tray.Index).SetCellValue(description);
 
-            CellRangeAddress plateDescriptionRange = new CellRangeAddress(_samplingSheet_rowIndex, _samplingSheet_rowIndex, 
-                Config.Excel.SamplingSheet.Columns.Tray.Index, 
-                Config.Excel.SamplingSheet.Columns.PCR.Index);
+            row.CreateCell(Config.Application.Excel.SamplingSheet.Columns.Tray.Index).SetCellValue(description);
+
+            CellRangeAddress plateDescriptionRange = new CellRangeAddress(_samplingSheet_rowIndex, _samplingSheet_rowIndex,
+                Config.Application.Excel.SamplingSheet.Columns.Tray.Index,
+                Config.Application.Excel.SamplingSheet.Columns.PCR.Index);
             _samplingSheet.AddMergedRegion(plateDescriptionRange);
 
             foreach (SampleGroup sg in plate.SampleGroups)
@@ -191,37 +191,37 @@ namespace SeedingPlanner
             _samplingSheet_rowIndex++;
             IRow row = _samplingSheet.CreateRow(_samplingSheet_rowIndex);
 
-            row.CreateCell(Config.Excel.SamplingSheet.Columns.Tray.Index).SetCellValue(sampleGroup.Seeding.Tray.Name);
+            row.CreateCell(Config.Application.Excel.SamplingSheet.Columns.Tray.Index).SetCellValue(sampleGroup.Seeding.Tray.Name);
             string row_numbers;
             if (sampleGroup.Seeding.FromRow == sampleGroup.Seeding.ToRow)
             {
-                row_numbers = Config.Excel.SamplingSheet.RowFormat;
+                row_numbers = Config.Application.Excel.SamplingSheet.RowFormat;
                 row_numbers = row_numbers.Replace("__ROW_NUMBER__", sampleGroup.Seeding.FromRow.ToString());
             }
             else
             {
-                row_numbers = Config.Excel.SamplingSheet.RowsFormat;
+                row_numbers = Config.Application.Excel.SamplingSheet.RowsFormat;
                 row_numbers = row_numbers.Replace("__FROM_ROW__", sampleGroup.Seeding.FromRow.ToString());
                 row_numbers = row_numbers.Replace("__TO_ROW__", sampleGroup.Seeding.ToRow.ToString());
             }
-            row.CreateCell(Config.Excel.SamplingSheet.Columns.Rows.Index).SetCellValue(row_numbers);
-            row.CreateCell(Config.Excel.SamplingSheet.Columns.BagName.Index).SetCellValue(sampleGroup.Seeding.Bag.BagName);
-            row.CreateCell(Config.Excel.SamplingSheet.Columns.Count.Index).SetCellValue(sampleGroup.Count);
-            row.CreateCell(Config.Excel.SamplingSheet.Columns.PCR.Index).SetCellValue(string.Join(",", sampleGroup.Seeding.Bag.Samples));
+            row.CreateCell(Config.Application.Excel.SamplingSheet.Columns.Rows.Index).SetCellValue(row_numbers);
+            row.CreateCell(Config.Application.Excel.SamplingSheet.Columns.BagName.Index).SetCellValue(sampleGroup.Seeding.Bag.BagName);
+            row.CreateCell(Config.Application.Excel.SamplingSheet.Columns.Count.Index).SetCellValue(sampleGroup.Count);
+            row.CreateCell(Config.Application.Excel.SamplingSheet.Columns.PCR.Index).SetCellValue(string.Join(",", sampleGroup.Seeding.Bag.Samples));
         }
 
         private void Done()
         {
-            _bagsSheet.AutoSizeColumn(Config.Excel.BagsSheet.Columns.BagName.Index);
-            _bagsSheet.AutoSizeColumn(Config.Excel.BagsSheet.Columns.Samples.Index);
-            _bagsSheet.AutoSizeColumn(Config.Excel.BagsSheet.Columns.Comment.Index);
+            _bagsSheet.AutoSizeColumn(Config.Application.Excel.BagsSheet.Columns.BagName.Index);
+            _bagsSheet.AutoSizeColumn(Config.Application.Excel.BagsSheet.Columns.Samples.Index);
+            _bagsSheet.AutoSizeColumn(Config.Application.Excel.BagsSheet.Columns.Comment.Index);
 
-            _seedingSheet.AutoSizeColumn(Config.Excel.SeedingSheet.Columns.BagName.Index);
-            _seedingSheet.AutoSizeColumn(Config.Excel.SeedingSheet.Columns.PCR.Index);
+            _seedingSheet.AutoSizeColumn(Config.Application.Excel.SeedingSheet.Columns.BagName.Index);
+            _seedingSheet.AutoSizeColumn(Config.Application.Excel.SeedingSheet.Columns.PCR.Index);
 
-            _samplingSheet.AutoSizeColumn(Config.Excel.SamplingSheet.Columns.Rows.Index);
-            _samplingSheet.AutoSizeColumn(Config.Excel.SamplingSheet.Columns.BagName.Index);
-            _samplingSheet.AutoSizeColumn(Config.Excel.SamplingSheet.Columns.PCR.Index);
+            _samplingSheet.AutoSizeColumn(Config.Application.Excel.SamplingSheet.Columns.Rows.Index);
+            _samplingSheet.AutoSizeColumn(Config.Application.Excel.SamplingSheet.Columns.BagName.Index);
+            _samplingSheet.AutoSizeColumn(Config.Application.Excel.SamplingSheet.Columns.PCR.Index);
 
         }
 

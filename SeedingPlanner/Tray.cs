@@ -45,7 +45,7 @@ namespace SeedingPlanner
 
         public bool isFull()
         {
-            return _nextAvailableRow >= Config.Tray.NumberOfRows;
+            return _nextAvailableRow >= Config.Application.Tray.NumberOfRows;
         }
 
         public Seeding AddSeedsFromBag(Bag bag)
@@ -64,10 +64,10 @@ namespace SeedingPlanner
                 int fromRow = _nextAvailableRow;
                 int toRow = fromRow;
 
-                int rowsRequired = (int)Math.Ceiling((double)(seedsToAdd / Config.Tray.NumberOfCellsInRow));
-                if (rowsRequired > (Config.Tray.NumberOfRows - _nextAvailableRow))
+                int rowsRequired = (int)Math.Ceiling((double)(seedsToAdd / Config.Application.Tray.NumberOfCellsInRow));
+                if (rowsRequired > (Config.Application.Tray.NumberOfRows - _nextAvailableRow))
                 {
-                    toRow = Config.Tray.NumberOfRows - 1;
+                    toRow = Config.Application.Tray.NumberOfRows - 1;
                 }
                 else
                 {
@@ -82,7 +82,7 @@ namespace SeedingPlanner
                     _nextAvailableRow++;
                 }
 
-                seedsAdded = rowsAdded * Config.Tray.NumberOfCellsInRow;
+                seedsAdded = rowsAdded * Config.Application.Tray.NumberOfCellsInRow;
                 _seedsCount += seedsAdded;
 
                 seeding = new Seeding(bag, this, fromRow, toRow, seedsAdded);

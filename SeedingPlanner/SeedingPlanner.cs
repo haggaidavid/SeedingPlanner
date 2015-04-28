@@ -36,7 +36,7 @@ namespace SeedingPlanner
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            Config.Application.Load();
         }
 
         private void btnBrowse_Click(object sender, EventArgs e)
@@ -120,6 +120,11 @@ namespace SeedingPlanner
             trayCost.Enabled = true;
             sampleCost.Enabled = true;
 
+        }
+
+        private void btnStep_Click(object sender, EventArgs e)
+        {
+            Config.Application.Save();
         }
     }
 }

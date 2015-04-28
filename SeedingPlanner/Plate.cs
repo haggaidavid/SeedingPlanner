@@ -52,7 +52,7 @@ namespace SeedingPlanner
 
         public bool isFull()
         {
-            return _seedsCount >= Config.Plate.NumberOfSamples;
+            return _seedsCount >= Config.Application.Plate.NumberOfSamples;
         }
 
         public SampleGroup AddSamples(Seeding seeding, int seedsToAdd)
@@ -64,13 +64,13 @@ namespace SeedingPlanner
             {
                 if (seedsToAdd > 0 && seeding.Bag.SeedsToSample > 0)
                 {
-                    if (seedsToAdd <= (Config.Plate.NumberOfSamples - _seedsCount))
+                    if (seedsToAdd <= (Config.Application.Plate.NumberOfSamples - _seedsCount))
                     {
                         seedsAdded = seedsToAdd;
                     }
                     else
                     {
-                        seedsAdded = Config.Plate.NumberOfSamples - _seedsCount;
+                        seedsAdded = Config.Application.Plate.NumberOfSamples - _seedsCount;
                     }
 
                     _seedsCount += seedsAdded;
