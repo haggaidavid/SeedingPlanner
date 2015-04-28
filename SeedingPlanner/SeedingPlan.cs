@@ -123,6 +123,23 @@ namespace SeedingPlanner
             excel.SaveToFile(filename);
         }
 
+        public double Cost()
+        {
+            double cost = 0.0;
+
+            foreach (Plate p in _plates)
+            {
+                cost += (p.NumberOfSamples * p.SeedsCount);
+                if (p.TraysCount > 2)
+                {
+                    // add an artifical factor to avoid too many trays in a plate
+                    cost = (int)(cost * (1 + (p.TraysCount * 0.1)));
+                }
+            }
+
+            return cost * -1.0;
+        }
+
         public int Cost(int trayCost, int sampleCost)
         {
             int cost = 0;

@@ -69,6 +69,13 @@
     <Compile Include="BagsInventory.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="ExcelWriter.cs" />
+    <Compile Include="Genetic\Chromosome.cs" />
+    <Compile Include="Genetic\FitnessFunction.cs" />
+    <Compile Include="Genetic\IChromosome.cs" />
+    <Compile Include="Genetic\IFitnessFunction.cs" />
+    <Compile Include="Genetic\ISelectionMethod.cs" />
+    <Compile Include="Genetic\Population.cs" />
+    <Compile Include="Genetic\SelectionMethod.cs" />
     <Compile Include="Plate.cs" />
     <Compile Include="SampleGroup.cs" />
     <Compile Include="Seeding.cs" />
