@@ -8,13 +8,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
-using System.Configuration; // <<--- Remove this!
-
+using System.Configuration;
+using SeedingPlanner.Genetic; // <<--- Remove this!
 
 namespace SeedingPlanner
 {
     public partial class SeedingPlanner : Form
     {
+        Genetic.Population _pop = null;
 
         public SeedingPlanner()
         {
@@ -79,6 +80,10 @@ namespace SeedingPlanner
                 int trays = plan.TrayCount;
                 int plates = plan.PlateCount;
                 plan.SaveToExcel(filename + ".new.xlsx");
+
+
+                Chromosome root = new Chromosome(BagsInventory.Count);
+                _pop = new Population((int)population.Value, root, new FitnessFunction(), new SelectionMethod());
             }
             else
             {
@@ -124,7 +129,12 @@ namespace SeedingPlanner
 
         private void btnStep_Click(object sender, EventArgs e)
         {
-            Config.Application.Save();
+            //Config.Application.Save();
+            _pop.RunEpoch();
+            Chromosome best = (Chromosome)_pop.BestChromosome;
+            double maxFitness = _pop.MaxFitness;
+            double avgFitness = _pop.AvgFitness;
+            double sumFitness = _pop.SumFitness;
         }
     }
 }

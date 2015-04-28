@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SeedingPlanner.Genetic
 {
-    class FitnessFunction
+    class FitnessFunction : IFitnessFunction
     {
         public double Evaluate(IChromosome chromosome)
         {

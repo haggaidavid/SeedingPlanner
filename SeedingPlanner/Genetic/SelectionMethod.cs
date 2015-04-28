@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace SeedingPlanner.Genetic
 {
-    class SelectionMethod
+    class SelectionMethod : ISelectionMethod
     {
         public SelectionMethod() { }
 
-        public void ApplySelectio(List<IChromosome> chromosomes, int size)
+        public void ApplySelection(List<IChromosome> chromosomes, int size)
         {
             chromosomes.Sort();
             chromosomes.RemoveRange(size, chromosomes.Count - size);
