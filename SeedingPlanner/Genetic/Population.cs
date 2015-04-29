@@ -13,6 +13,7 @@ namespace SeedingPlanner.Genetic
         private List<IChromosome> _population = new List<IChromosome>();
         private int _size;
 
+        private Random _random = new Random(DateTime.Now.Millisecond);
         private double _crossoverRate = 0.75;
         private double _mutateChance = 0.10;
 
@@ -41,7 +42,7 @@ namespace SeedingPlanner.Genetic
             }
             set
             {
-                _mutateChance = Math.Max(0.1, Math.Min(1.0, value));
+                _mutateChance = Math.Max(0.05, Math.Min(1.0, value));
             }
         }
 
@@ -142,24 +143,26 @@ namespace SeedingPlanner.Genetic
         {
             for (int i = 1; i < _size; i += 2)
             {
-                IChromosome c1 = _population[i - 1].Clone();
-                IChromosome c2 = _population[i].Clone();
+                if (_random.NextDouble() <= _crossoverRate)
+                {
+                    IChromosome c1 = _population[i - 1].Clone();
+                    IChromosome c2 = _population[i].Clone();
 
-                c1.Crossover(c2);
-                c1.Evaluate(_fitnessFunction);
-                c2.Evaluate(_fitnessFunction);
+                    c1.Crossover(c2);
+                    c1.Evaluate(_fitnessFunction);
+                    c2.Evaluate(_fitnessFunction);
 
-                _population.Add(c1);
-                _population.Add(c2);
+                    _population.Add(c1);
+                    _population.Add(c2);
+                }
             }
         }
 
         public void Mutate()
         {
-            Random rand = new Random(DateTime.Now.Millisecond);
             for (int i = 0; i < _size; ++i)
             {
-                if (rand.NextDouble() <= _mutateChance)
+                if (_random.NextDouble() <= _mutateChance)
                 {
                     IChromosome c = _population[i].Clone();
                     c.Mutate();

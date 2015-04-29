@@ -45,6 +45,12 @@ namespace SeedingPlanner.Genetic
             Generate();
         }
 
+        public Chromosome(int[] values)
+        {
+            _length = values.Length;
+            _values = values;
+        }
+
         public Chromosome(Chromosome source)
         {
             _fitness = source._fitness;

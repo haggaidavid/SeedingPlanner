@@ -84,17 +84,16 @@ namespace SeedingPlanner
                 int plates = plan.PlateCount;
                 plan.SaveToExcel(filename + ".new.xlsx");
 
-
-                Chromosome root = new Chromosome(BagsInventory.Count);
+                int[] values = new int[BagsInventory.Count];
+                for (int i = 0; i < values.Length; ++i)
+                {
+                    values[i] = i;
+                }
+                //Chromosome root = new Chromosome(BagsInventory.Count);
+                Chromosome root = new Chromosome(values);
                 _pop = new Population((int)population.Value, root, new FitnessFunction(), new SelectionMethod());
 
-                chart.Series.Clear();
-                _avgSeries = chart.Series.Add("avg");
-                _bestSeries = chart.Series.Add("best");
-
-                _avgSeries.ChartType = SeriesChartType.FastLine;
-                _bestSeries.ChartType = SeriesChartType.FastLine;
-
+                textCostOfOriginal.Text = root.Fitness.ToString("0");
             }
             else
             {
@@ -151,6 +150,9 @@ namespace SeedingPlanner
                 // update chart
                 _avgSeries.Points.Add(avgFitness);
                 _bestSeries.Points.Add(bestFitness);
+
+                textCostOfBestFit.Text = bestFitness.ToString("0");
+                textAvgPopCost.Text = avgFitness.ToString("0");
             }
         }
 
@@ -222,10 +224,20 @@ namespace SeedingPlanner
             }
             else
             {
+                chart.Series.Clear();
+                _avgSeries = chart.Series.Add("avg");
+                _bestSeries = chart.Series.Add("best");
+
+                _avgSeries.ChartType = SeriesChartType.FastLine;
+                _bestSeries.ChartType = SeriesChartType.FastLine;
+
                 progressBar.Minimum = 0;
                 progressBar.Maximum = Convert.ToInt32(generations.Value);
 
                 _generation_counter = 0;
+
+                _pop.MutationChance = Convert.ToDouble(mutationChance.Value);
+                _pop.CrossoverRate = Convert.ToDouble(crossoverChance.Value);
 
                 _bNeedToStop = false;
                 _workerThread = new Thread(new ThreadStart(RunAllSteps));
