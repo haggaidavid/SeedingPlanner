@@ -10,12 +10,18 @@ using System.Windows.Forms;
 using System.IO;
 using System.Configuration;
 using SeedingPlanner.Genetic; // <<--- Remove this!
+using System.Windows.Forms.DataVisualization.Charting;
+using System.Threading;
 
 namespace SeedingPlanner
 {
     public partial class SeedingPlanner : Form
     {
-        Genetic.Population _pop = null;
+        Population _pop = null;
+        Series _bestSeries;
+        Series _avgSeries;
+        private Thread workerThread = null;
+        private volatile bool needToStop = false;
 
         public SeedingPlanner()
         {
@@ -33,11 +39,6 @@ namespace SeedingPlanner
             sampleCost.Value = Convert.ToDecimal(appSettings["SampleCost"]);
 
             DisableUI();
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            Config.Application.Load();
         }
 
         private void btnBrowse_Click(object sender, EventArgs e)
@@ -84,6 +85,13 @@ namespace SeedingPlanner
 
                 Chromosome root = new Chromosome(BagsInventory.Count);
                 _pop = new Population((int)population.Value, root, new FitnessFunction(), new SelectionMethod());
+
+                chart.Series.Clear();
+                _avgSeries = chart.Series.Add("avg");
+                _bestSeries = chart.Series.Add("best");
+
+                _avgSeries.ChartType = SeriesChartType.FastLine;
+                _bestSeries.ChartType = SeriesChartType.FastLine;
             }
             else
             {
@@ -127,14 +135,62 @@ namespace SeedingPlanner
 
         }
 
-        private void btnStep_Click(object sender, EventArgs e)
+        delegate void AddToChartDelegate(double v1, double v2);
+
+        private void AddToChart(double avgFitness, double bestFitness)
         {
-            //Config.Application.Save();
+            if (InvokeRequired)
+            {
+                Invoke(new AddToChartDelegate(AddToChart), avgFitness, bestFitness);
+            }
+            else
+            {
+                // update chart
+                _avgSeries.Points.Add(avgFitness);
+                _bestSeries.Points.Add(bestFitness);
+            }
+        }
+
+
+        private void PlayOneEpoch()
+        {
             _pop.RunEpoch();
             Chromosome best = (Chromosome)_pop.BestChromosome;
             double maxFitness = _pop.MaxFitness;
             double avgFitness = _pop.AvgFitness;
             double sumFitness = _pop.SumFitness;
+
+            AddToChart(avgFitness, maxFitness);
+        }
+
+        private void btnStep_Click(object sender, EventArgs e)
+        {
+            //Config.Application.Save();
+            PlayOneEpoch();
+        }
+
+        private void RunAllSteps()
+        {
+            for (int i = 0; i < generations.Value && !needToStop; ++i)
+            {
+                PlayOneEpoch();
+            }
+        }
+
+        private void btnAllSteps_Click(object sender, EventArgs e)
+        {
+
+            needToStop = false;
+            workerThread = new Thread(new ThreadStart(RunAllSteps));
+            workerThread.Start();
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            Chromosome best = (Chromosome)_pop.BestChromosome;
+            SeedingPlan plan = new SeedingPlan();
+            plan.Setup(best.Values);
+            plan.SaveToExcel(inputExcelFilename.Text + ".new.xlsx");
         }
     }
 }
