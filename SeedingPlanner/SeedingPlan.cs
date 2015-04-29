@@ -65,7 +65,7 @@ namespace SeedingPlanner
                 _trays.Add(currTray);
             }
 
-            Console.WriteLine("Added {0} Seedings to the setup", seedings.Count);
+            //Console.WriteLine("Added {0} Seedings to the setup", seedings.Count);
 
 
             Plate currPlate = new Plate((_plates.Count+1).ToString("000"));
@@ -91,8 +91,8 @@ namespace SeedingPlanner
                 _plates.Add(currPlate);
             }
 
-            Console.WriteLine("Added {0} trays to the setup", _trays.Count);
-            Console.WriteLine("Added {0} plates to the setup", _plates.Count);
+            //Console.WriteLine("Added {0} trays to the setup", _trays.Count);
+            //Console.WriteLine("Added {0} plates to the setup", _plates.Count);
         }
 
         public void SaveToExcel(string filename)

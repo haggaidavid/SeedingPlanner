@@ -89,7 +89,16 @@ namespace SeedingPlanner.Genetic
             int[] child1 = new int[_length];
             int[] child2 = new int[_length];
 
-            
+            if (p != null)
+            {
+                CreateChildFromTwoParents(_values, p._values, child1);
+                CreateChildFromTwoParents(p._values, _values, child2);
+            }
+            else
+            {
+                SinglePointCrossoverFromTwoParents(_values, p._values, child1);
+                SinglePointCrossoverFromTwoParents(p._values, _values, child2);
+            }
 
             _values = child1;
             p._values = child2;
@@ -104,12 +113,12 @@ namespace SeedingPlanner.Genetic
             for (int child_index = 0; child_index < _length; ++child_index)
             {
                 // select a gene from parent1
-                while (isBusy[parent1[p1index]] && p1index < _length)
+                while (p1index < _length && isBusy[parent1[p1index]])
                 {
                     ++p1index;
                 }
 
-                if (!isBusy[parent1[p1index]])
+                if (p1index < _length && !isBusy[parent1[p1index]])
                 {
                     // valid selection
                     child[child_index] = parent1[p1index];
@@ -118,15 +127,39 @@ namespace SeedingPlanner.Genetic
                 }
 
                 // select a gene from parent2
-                while (isBusy[parent2[p2index]] && p2index < _length)
+                while (p2index < _length && isBusy[parent2[p2index]])
                 {
                     ++p2index;
                 }
 
-                if (!isBusy[parent2[p2index]])
+                if (p2index < _length && !isBusy[parent2[p2index]])
                 {
                     child[child_index] = parent2[p2index];
                     isBusy[parent2[p2index]] = true;
+                }
+            }
+        }
+
+        void SinglePointCrossoverFromTwoParents(int[] parent1, int[] parent2, int[] child)
+        {
+            int point_of_selection = _random.Next(_length);
+            bool[] isBusy = new bool[_length];
+            int child_index = 0;
+
+            for (; child_index < point_of_selection; ++child_index)
+            {
+                // copy the sequence from parent1
+                child[child_index] = parent1[child_index];
+                isBusy[child[child_index]] = true;
+            }
+
+            for (int i = 0; i < _length; ++i)
+            {
+                if (!isBusy[parent2[i]])
+                {
+                    isBusy[parent2[i]] = true;
+                    child[child_index] = parent2[i];
+                    ++child_index;
                 }
             }
         }
