@@ -35,6 +35,7 @@ namespace SeedingPlanner
             mutationChance.Value = Convert.ToDecimal(appSettings["MutationChance"]);
             crossoverChance.Value = Convert.ToDecimal(appSettings["CrossoverChance"]);
             elitePercentage.Value = Convert.ToDecimal(appSettings["ElitePercentage"]);
+            generations.Value = 100;
 
             trayCost.Value = Convert.ToDecimal(appSettings["TrayCost"]);
             sampleCost.Value = Convert.ToDecimal(appSettings["SampleCost"]);
@@ -235,10 +236,20 @@ namespace SeedingPlanner
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            Chromosome best = (Chromosome)_pop.BestChromosome;
-            SeedingPlan plan = new SeedingPlan();
-            plan.Setup(best.Values);
-            plan.SaveToExcel(inputExcelFilename.Text + ".new.xlsx");
+            OpenFileDialog dlg = new OpenFileDialog();
+            dlg.Filter = "Excel Files|*.xls;*.xlsx;*.xlsm|All Files|*.*";
+            dlg.CheckFileExists = true;
+            dlg.CheckPathExists = true;
+            dlg.AddExtension = true;
+            dlg.DefaultExt = ".xlsx";
+            if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                string filename = dlg.FileName;
+                Chromosome best = (Chromosome)_pop.BestChromosome;
+                SeedingPlan plan = new SeedingPlan();
+                plan.Setup(best.Values);
+                plan.SaveToExcel(filename);
+            }
         }
 
     }
