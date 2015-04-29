@@ -52,16 +52,16 @@ namespace SeedingPlanner
             {
                 public class ColumnsConfig
                 {
-                    public ColumnInfo FieldName = new ColumnInfo { Name = "Field name", Index = 1 };
-                    public ColumnInfo BagName = new ColumnInfo { Name = "Bag Name", Index = 2 };
-                    public ColumnInfo SeedsToPlant = new ColumnInfo { Name = "ToPlant", Index = 3 };
-                    public ColumnInfo SeedsToSample = new ColumnInfo { Name = "ToSample", Index = 4 };
-                    public ColumnInfo Samples = new ColumnInfo { Name = "Samples", Index = 5 };
-                    public ColumnInfo Comment = new ColumnInfo { Name = "Comment", Index = 6 };
+                    public ColumnInfo FieldName = new ColumnInfo { Name = "חלקה", Index = 1 };
+                    public ColumnInfo BagName = new ColumnInfo { Name = "שקית זרעים", Index = 2 };
+                    public ColumnInfo SeedsToPlant = new ColumnInfo { Name = "זריעה", Index = 3 };
+                    public ColumnInfo SeedsToSample = new ColumnInfo { Name = "PCR", Index = 4 };
+                    public ColumnInfo Samples = new ColumnInfo { Name = "דגימות", Index = 5 };
+                    public ColumnInfo Comment = new ColumnInfo { Name = "הערות", Index = 6 };
                 }
                 public ColumnsConfig Columns = new ColumnsConfig();
 
-                public string SheetName = "Seed Bags";
+                public string SheetName = "שקיות זרעים";
             }
             public BagsSheetConfig BagsSheet = new BagsSheetConfig();
 
@@ -69,15 +69,15 @@ namespace SeedingPlanner
             {
                 public class ColumnsConfig
                 {
-                    public ColumnInfo BagName = new ColumnInfo { Name = "Bag Name", Index = 1 };
-                    public ColumnInfo FromRow = new ColumnInfo { Name = "From", Index = 2 };
-                    public ColumnInfo ToRow = new ColumnInfo { Name = "To", Index = 3 };
-                    public ColumnInfo SeedsToSample = new ColumnInfo { Name = "ToSample", Index = 4 };
-                    public ColumnInfo PCR = new ColumnInfo { Name = "Samples", Index = 5 };
+                    public ColumnInfo BagName = new ColumnInfo { Name = "שקית זרעים", Index = 1 };
+                    public ColumnInfo FromRow = new ColumnInfo { Name = "משורה", Index = 2 };
+                    public ColumnInfo ToRow = new ColumnInfo { Name = "עד שורה", Index = 3 };
+                    public ColumnInfo SeedsToSample = new ColumnInfo { Name = "זריעה", Index = 4 };
+                    public ColumnInfo PCR = new ColumnInfo { Name = "PCR", Index = 5 };
                 }
                 public ColumnsConfig Columns = new ColumnsConfig();
 
-                public string SheetName = "Seeding";
+                public string SheetName = "מגשים";
                 public string DescriptionFormat = "מגש מספר __TRAY_NUMBER__, סה'כ __SEEDS_COUNT__ זרעים";
             }
             public SeedingSheetConfig SeedingSheet = new SeedingSheetConfig();
@@ -86,15 +86,15 @@ namespace SeedingPlanner
             {
                 public class ColumnsConfig
                 {
-                    public ColumnInfo Tray = new ColumnInfo { Name = "Tray", Index = 1 };
-                    public ColumnInfo Rows = new ColumnInfo { Name = "Rows", Index = 2 };
-                    public ColumnInfo BagName = new ColumnInfo { Name = "Bag Name", Index = 3 };
-                    public ColumnInfo Count = new ColumnInfo { Name = "Count", Index = 4 };
+                    public ColumnInfo Tray = new ColumnInfo { Name = "מגש", Index = 1 };
+                    public ColumnInfo Rows = new ColumnInfo { Name = "שורות", Index = 2 };
+                    public ColumnInfo BagName = new ColumnInfo { Name = "שקית מקור", Index = 3 };
+                    public ColumnInfo Count = new ColumnInfo { Name = "כמות", Index = 4 };
                     public ColumnInfo PCR = new ColumnInfo { Name = "PCR", Index = 5 };
                 }
                 public ColumnsConfig Columns = new ColumnsConfig();
 
-                public string SheetName = "Sampling";
+                public string SheetName = "פלטות";
                 public string DecriptionFormat = "פלטה __PLATE_NAME__, __SEEDS_COUNT__ זרעים מתוך __TRAYS_COUNT__ מגשים, דגימות: __SAMPLES__";
                 public string RowFormat = "שורה __ROW_NUMBER__";
                 public string RowsFormat = "שורות __FROM_ROW__-__TO_ROW__";
@@ -116,7 +116,7 @@ namespace SeedingPlanner
         {
             string json = File.ReadAllText(filename);
             // TODO: hope this one overide also static values
-            Config c = JsonConvert.DeserializeObject<Config>(json);
+            _instance = JsonConvert.DeserializeObject<Config>(json);
         }
 
     }

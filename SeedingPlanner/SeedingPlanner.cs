@@ -21,7 +21,7 @@ namespace SeedingPlanner
         Series _bestSeries;
         Series _avgSeries;
         private Thread _workerThread = null;
-        private volatile bool _bNeedToStop = false;
+        private volatile bool _bNeedToStop = true;
 
         public SeedingPlanner()
         {
