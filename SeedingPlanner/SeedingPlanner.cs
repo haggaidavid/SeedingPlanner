@@ -22,6 +22,7 @@ namespace SeedingPlanner
         Series _avgSeries;
         private Thread _workerThread = null;
         private volatile bool _bNeedToStop = true;
+        private int _generation_counter = 0;
 
         public SeedingPlanner()
         {
@@ -92,6 +93,7 @@ namespace SeedingPlanner
 
                 _avgSeries.ChartType = SeriesChartType.FastLine;
                 _bestSeries.ChartType = SeriesChartType.FastLine;
+
             }
             else
             {
@@ -151,6 +153,17 @@ namespace SeedingPlanner
             }
         }
 
+        private void UpdateProgressBar()
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new MethodInvoker(UpdateProgressBar));
+            }
+            else
+            {
+                progressBar.Value = _generation_counter;
+            }
+        }
 
         private void PlayOneEpoch()
         {
@@ -161,6 +174,9 @@ namespace SeedingPlanner
             double sumFitness = _pop.SumFitness;
 
             AddToChart(avgFitness, maxFitness);
+
+            _generation_counter++;
+            UpdateProgressBar();
         }
 
         private void btnStep_Click(object sender, EventArgs e)
@@ -171,10 +187,12 @@ namespace SeedingPlanner
 
         private void RunAllSteps()
         {
-            for (int i = 0; i < generations.Value && !_bNeedToStop; ++i)
+            while (_generation_counter  < generations.Value && !_bNeedToStop)
             {
                 PlayOneEpoch();
             }
+            // finished
+            _bNeedToStop = true;
             UpdatePlayButtons();
         }
 
@@ -203,6 +221,11 @@ namespace SeedingPlanner
             }
             else
             {
+                progressBar.Minimum = 0;
+                progressBar.Maximum = Convert.ToInt32(generations.Value);
+
+                _generation_counter = 0;
+
                 _bNeedToStop = false;
                 _workerThread = new Thread(new ThreadStart(RunAllSteps));
                 _workerThread.Start();
