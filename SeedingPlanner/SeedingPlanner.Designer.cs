@@ -419,7 +419,7 @@
             this.btnStep.Name = "btnStep";
             this.btnStep.Size = new System.Drawing.Size(75, 23);
             this.btnStep.TabIndex = 6;
-            this.btnStep.Text = "Step";
+            this.btnStep.Text = ">";
             this.btnStep.UseVisualStyleBackColor = true;
             this.btnStep.Click += new System.EventHandler(this.btnStep_Click);
             // 
@@ -429,7 +429,7 @@
             this.btnStep2.Name = "btnStep2";
             this.btnStep2.Size = new System.Drawing.Size(75, 23);
             this.btnStep2.TabIndex = 7;
-            this.btnStep2.Text = "5 Steps";
+            this.btnStep2.Text = "| |";
             this.btnStep2.UseVisualStyleBackColor = true;
             // 
             // btnAllSteps
@@ -438,7 +438,7 @@
             this.btnAllSteps.Name = "btnAllSteps";
             this.btnAllSteps.Size = new System.Drawing.Size(75, 23);
             this.btnAllSteps.TabIndex = 8;
-            this.btnAllSteps.Text = "All the way";
+            this.btnAllSteps.Text = ">>";
             this.btnAllSteps.UseVisualStyleBackColor = true;
             this.btnAllSteps.Click += new System.EventHandler(this.btnAllSteps_Click);
             // 

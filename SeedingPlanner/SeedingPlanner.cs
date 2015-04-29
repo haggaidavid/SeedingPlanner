@@ -8,8 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
-using System.Configuration;
-using SeedingPlanner.Genetic; // <<--- Remove this!
+using System.Configuration; // <<--- Remove this!
+using SeedingPlanner.Genetic; 
 using System.Windows.Forms.DataVisualization.Charting;
 using System.Threading;
 
@@ -20,8 +20,8 @@ namespace SeedingPlanner
         Population _pop = null;
         Series _bestSeries;
         Series _avgSeries;
-        private Thread workerThread = null;
-        private volatile bool needToStop = false;
+        private Thread _workerThread = null;
+        private volatile bool _bNeedToStop = false;
 
         public SeedingPlanner()
         {
@@ -171,18 +171,43 @@ namespace SeedingPlanner
 
         private void RunAllSteps()
         {
-            for (int i = 0; i < generations.Value && !needToStop; ++i)
+            for (int i = 0; i < generations.Value && !_bNeedToStop; ++i)
             {
                 PlayOneEpoch();
+            }
+            UpdatePlayButtons();
+        }
+
+        private void UpdatePlayButtons()
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new MethodInvoker(UpdatePlayButtons));
+            }
+
+            if (_bNeedToStop)
+            {
+                btnAllSteps.Text = ">>";
+            }
+            else
+            {
+                btnAllSteps.Text = "| |";
             }
         }
 
         private void btnAllSteps_Click(object sender, EventArgs e)
         {
-
-            needToStop = false;
-            workerThread = new Thread(new ThreadStart(RunAllSteps));
-            workerThread.Start();
+            if (!_bNeedToStop)
+            {
+                _bNeedToStop = true;
+            }
+            else
+            {
+                _bNeedToStop = false;
+                _workerThread = new Thread(new ThreadStart(RunAllSteps));
+                _workerThread.Start();
+            }
+            UpdatePlayButtons();
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -192,5 +217,6 @@ namespace SeedingPlanner
             plan.Setup(best.Values);
             plan.SaveToExcel(inputExcelFilename.Text + ".new.xlsx");
         }
+
     }
 }
