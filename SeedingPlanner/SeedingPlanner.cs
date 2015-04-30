@@ -82,7 +82,7 @@ namespace SeedingPlanner
                 int cost = plan.Cost(Convert.ToInt32(trayCost.Value), Convert.ToInt32(sampleCost.Value));
                 int trays = plan.TrayCount;
                 int plates = plan.PlateCount;
-                plan.SaveToExcel(filename + ".new.xlsx");
+                //plan.SaveToExcel(filename + ".new.xlsx");
 
                 int[] values = new int[BagsInventory.Count];
                 for (int i = 0; i < values.Length; ++i)
@@ -248,9 +248,9 @@ namespace SeedingPlanner
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            OpenFileDialog dlg = new OpenFileDialog();
+            SaveFileDialog dlg = new SaveFileDialog();
+            //OpenFileDialog dlg = new OpenFileDialog();
             dlg.Filter = "Excel Files|*.xls;*.xlsx;*.xlsm|All Files|*.*";
-            dlg.CheckFileExists = true;
             dlg.CheckPathExists = true;
             dlg.AddExtension = true;
             dlg.DefaultExt = ".xlsx";

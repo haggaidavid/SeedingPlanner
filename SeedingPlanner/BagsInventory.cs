@@ -31,6 +31,45 @@ namespace SeedingPlanner
             return bag;
         }
 
+        public static string GetCellString(IRow row, int column_number)
+        {
+            string value = "";
+
+            if (row != null)
+            {
+                ICell cell = row.GetCell(column_number);
+                if (cell != null)
+                {
+                    if (cell.CellType == NPOI.SS.UserModel.CellType.Numeric)
+                    {
+                        value = cell.NumericCellValue.ToString();
+                    }
+                    else
+                    {
+                        value = cell.StringCellValue.Trim();
+                    }
+                }
+            }
+
+            return value;
+        }
+
+        public static int GetCellNumeric(IRow row, int column_number)
+        {
+            int value = 0;
+
+            if (row != null)
+            {
+                ICell cell = row.GetCell(column_number);
+                if (cell != null)
+                {
+                    value = Convert.ToInt32(cell.NumericCellValue);
+                }
+            }
+
+            return value;
+        }
+
         public static bool LoadFromExcel(string filename)
         {
             IWorkbook workbook = null;
@@ -61,28 +100,25 @@ namespace SeedingPlanner
             {
                 ICell cell = null;
 
-                string fieldName;
-                cell = bag_row.GetCell(Config.Application.Excel.BagsSheet.Columns.FieldName.Index - 1);
-                if (cell.CellType == NPOI.SS.UserModel.CellType.Numeric)
+                // bag name is a must cell
+                string bagName = GetCellString(bag_row, Config.Application.Excel.BagsSheet.Columns.BagName.Index);
+                if (string.IsNullOrEmpty(bagName))
                 {
-                    fieldName = cell.NumericCellValue.ToString();
-                }
-                else
-                {
-                    fieldName = cell.StringCellValue.Trim();
+                    // no bag name cell - exit
+                    return false;
                 }
 
-                string bagName = bag_row.GetCell(Config.Application.Excel.BagsSheet.Columns.BagName.Index - 1).StringCellValue.Trim();
-                int seedsToPlant = (int)bag_row.GetCell(Config.Application.Excel.BagsSheet.Columns.SeedsToPlant.Index - 1).NumericCellValue;
-                int seedsToSample = (int)bag_row.GetCell(Config.Application.Excel.BagsSheet.Columns.SeedsToSample.Index - 1).NumericCellValue;
-                string samples = bag_row.GetCell(Config.Application.Excel.BagsSheet.Columns.Samples.Index - 1).StringCellValue.Trim();
-                string comment = bag_row.GetCell(Config.Application.Excel.BagsSheet.Columns.Comment.Index - 1).StringCellValue.Trim();
+                string fieldName = GetCellString(bag_row, Config.Application.Excel.BagsSheet.Columns.FieldName.Index);
+                int seedsToPlant = GetCellNumeric(bag_row, Config.Application.Excel.BagsSheet.Columns.SeedsToPlant.Index);
+                int seedsToSample = GetCellNumeric(bag_row, Config.Application.Excel.BagsSheet.Columns.SeedsToSample.Index);
+                string samples = GetCellString(bag_row, Config.Application.Excel.BagsSheet.Columns.Samples.Index);
+                string comment = GetCellString(bag_row, Config.Application.Excel.BagsSheet.Columns.Comment.Index);
 
                 Bag bag = new Bag(bagName, fieldName, seedsToPlant, seedsToSample, samples, comment);
                 _bags.Add(bag);
             }
 
-            Console.WriteLine("Found {0} bags in the file", _bags.Count);
+            //Console.WriteLine("Found {0} bags in the file", _bags.Count);
 
             return true;
         }
