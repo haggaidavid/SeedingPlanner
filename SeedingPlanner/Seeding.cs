@@ -18,15 +18,18 @@ namespace SeedingPlanner
 
         public int Count { get; set; }
 
+        public int SamplesCount { get; set; }
+
         public Seeding() { }
 
-        public Seeding(Bag bag, Tray tray, int fromRow, int toRow, int count)
+        public Seeding(Bag bag, Tray tray, int fromRow, int toRow, int count, int samples)
         {
             Bag = bag;
             Tray = tray;
             FromRow = fromRow;
             ToRow = toRow;
             Count = count;
+            SamplesCount = samples;
         }
     }
 }

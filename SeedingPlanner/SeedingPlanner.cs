@@ -89,11 +89,13 @@ namespace SeedingPlanner
                 {
                     values[i] = i;
                 }
-                //Chromosome root = new Chromosome(BagsInventory.Count);
+
                 Chromosome root = new Chromosome(values);
                 _pop = new Population((int)population.Value, root, new FitnessFunction(), new SelectionMethod());
+                //_pop = new Population((int)population.Value, root, new FitnessFunction(), new SelectionEliteWithRandom());
 
                 textCostOfOriginal.Text = root.Fitness.ToString("0");
+                updateView();
             }
             else
             {
@@ -164,7 +166,10 @@ namespace SeedingPlanner
             }
             else
             {
-                progressBar.Value = _generation_counter;
+                if (_generation_counter <= progressBar.Maximum)
+                {
+                    progressBar.Value = _generation_counter;
+                }
             }
         }
 
@@ -190,6 +195,8 @@ namespace SeedingPlanner
 
         private void RunAllSteps()
         {
+            ResetProgress();
+
             while (_generation_counter  < generations.Value && !_bNeedToStop)
             {
                 PlayOneEpoch();
@@ -216,6 +223,34 @@ namespace SeedingPlanner
             }
         }
 
+        private void ResetProgress()
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new MethodInvoker(ResetProgress));
+            }
+
+            progressBar.Minimum = 0;
+            progressBar.Maximum = Convert.ToInt32(generations.Value);
+
+            _generation_counter = 0;
+
+            _pop.MutationChance = Convert.ToDouble(mutationChance.Value);
+            _pop.CrossoverRate = Convert.ToDouble(crossoverChance.Value);
+        }
+
+        private void updateView()
+        {
+            chart.Series.Clear();
+            _avgSeries = chart.Series.Add("avg");
+            _bestSeries = chart.Series.Add("best");
+
+            _avgSeries.ChartType = SeriesChartType.FastLine;
+            _bestSeries.ChartType = SeriesChartType.FastLine;
+
+            ResetProgress();
+        }
+
         private void btnAllSteps_Click(object sender, EventArgs e)
         {
             if (!_bNeedToStop)
@@ -224,21 +259,6 @@ namespace SeedingPlanner
             }
             else
             {
-                chart.Series.Clear();
-                _avgSeries = chart.Series.Add("avg");
-                _bestSeries = chart.Series.Add("best");
-
-                _avgSeries.ChartType = SeriesChartType.FastLine;
-                _bestSeries.ChartType = SeriesChartType.FastLine;
-
-                progressBar.Minimum = 0;
-                progressBar.Maximum = Convert.ToInt32(generations.Value);
-
-                _generation_counter = 0;
-
-                _pop.MutationChance = Convert.ToDouble(mutationChance.Value);
-                _pop.CrossoverRate = Convert.ToDouble(crossoverChance.Value);
-
                 _bNeedToStop = false;
                 _workerThread = new Thread(new ThreadStart(RunAllSteps));
                 _workerThread.Start();
@@ -257,9 +277,22 @@ namespace SeedingPlanner
             if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 string filename = dlg.FileName;
+                int[] order;
                 Chromosome best = (Chromosome)_pop.BestChromosome;
+                if (null != best)
+                {
+                    order = best.Values;
+                }
+                else
+                {
+                    order = new int[BagsInventory.Count];
+                    for (int i = 0; i < BagsInventory.Count; ++i)
+                    {
+                        order[i] = i;
+                    }
+                }
                 SeedingPlan plan = new SeedingPlan();
-                plan.Setup(best.Values);
+                plan.Setup(order);
                 plan.SaveToExcel(filename);
             }
         }

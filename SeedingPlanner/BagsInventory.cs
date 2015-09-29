@@ -98,14 +98,14 @@ namespace SeedingPlanner
             IRow bag_row = null;
             for (int row_number = 1; null != (bag_row = sheet.GetRow(row_number)); ++row_number)
             {
-                ICell cell = null;
-
                 // bag name is a must cell
                 string bagName = GetCellString(bag_row, Config.Application.Excel.BagsSheet.Columns.BagName.Index);
                 if (string.IsNullOrEmpty(bagName))
                 {
+                    // no bag name in cell - continue to next
+                    continue;
                     // no bag name cell - exit
-                    return false;
+                    //return false;
                 }
 
                 string fieldName = GetCellString(bag_row, Config.Application.Excel.BagsSheet.Columns.FieldName.Index);

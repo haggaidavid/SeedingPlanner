@@ -22,6 +22,7 @@ namespace SeedingPlanner
                 {
                     _instance = new Config();
                     _instance.Load();
+                    //_instance.Save();
                 }
                 return _instance;
             }
@@ -86,11 +87,13 @@ namespace SeedingPlanner
             {
                 public class ColumnsConfig
                 {
+                    public ColumnInfo FieldName = new ColumnInfo { Name = "חלקה", Index = 0 };
                     public ColumnInfo Tray = new ColumnInfo { Name = "מגש", Index = 1 };
                     public ColumnInfo Rows = new ColumnInfo { Name = "שורות", Index = 2 };
                     public ColumnInfo BagName = new ColumnInfo { Name = "שקית מקור", Index = 3 };
                     public ColumnInfo Count = new ColumnInfo { Name = "כמות", Index = 4 };
                     public ColumnInfo PCR = new ColumnInfo { Name = "PCR", Index = 5 };
+                    public ColumnInfo TotalDataPoints = new ColumnInfo { Name = "Data Points", Index = 6 };
                 }
                 public ColumnsConfig Columns = new ColumnsConfig();
 

@@ -147,6 +147,7 @@ namespace SeedingPlanner
             _samplingSheet_rowIndex = 0;
 
             IRow headerRow = _samplingSheet.CreateRow(_samplingSheet_rowIndex);
+            headerRow.CreateCell(Config.Application.Excel.SamplingSheet.Columns.FieldName.Index).SetCellValue(Config.Application.Excel.SamplingSheet.Columns.FieldName.Name);
             headerRow.CreateCell(Config.Application.Excel.SamplingSheet.Columns.Tray.Index).SetCellValue(Config.Application.Excel.SamplingSheet.Columns.Tray.Name);
             headerRow.CreateCell(Config.Application.Excel.SamplingSheet.Columns.Rows.Index).SetCellValue(Config.Application.Excel.SamplingSheet.Columns.Rows.Name);
             headerRow.CreateCell(Config.Application.Excel.SamplingSheet.Columns.BagName.Index).SetCellValue(Config.Application.Excel.SamplingSheet.Columns.BagName.Name);
@@ -179,6 +180,7 @@ namespace SeedingPlanner
                 Config.Application.Excel.SamplingSheet.Columns.Tray.Index,
                 Config.Application.Excel.SamplingSheet.Columns.PCR.Index);
             _samplingSheet.AddMergedRegion(plateDescriptionRange);
+            row.CreateCell(Config.Application.Excel.SamplingSheet.Columns.TotalDataPoints.Index).SetCellFormula(plate.NumberOfSamples.ToString() + "*" + plate.SeedsCount.ToString());
 
             foreach (SampleGroup sg in plate.SampleGroups)
             {
@@ -208,6 +210,7 @@ namespace SeedingPlanner
             row.CreateCell(Config.Application.Excel.SamplingSheet.Columns.BagName.Index).SetCellValue(sampleGroup.Seeding.Bag.BagName);
             row.CreateCell(Config.Application.Excel.SamplingSheet.Columns.Count.Index).SetCellValue(sampleGroup.Count);
             row.CreateCell(Config.Application.Excel.SamplingSheet.Columns.PCR.Index).SetCellValue(string.Join(",", sampleGroup.Seeding.Bag.Samples));
+            row.CreateCell(Config.Application.Excel.SamplingSheet.Columns.FieldName.Index).SetCellValue(sampleGroup.Seeding.Bag.FieldName);
         }
 
         private void Done()

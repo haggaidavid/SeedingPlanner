@@ -41,6 +41,12 @@ namespace SeedingPlanner
             {
                 Bag bag = BagsInventory.GetAt(_bagsOrder[i]);
 
+                if (currTray.isFull())
+                {
+                    _trays.Add(currTray);
+                    currTray = new Tray((_trays.Count + 1).ToString("000"));
+                }
+
                 Seeding seeding = currTray.AddSeedsFromBag(bag);
 
                 if (seeding != null)
@@ -55,7 +61,7 @@ namespace SeedingPlanner
                     if (seeding != null && seeding.Count < bag.SeedsToPlant)
                     {
                         // tray is full, take another tray
-                        seedings.Add(currTray.AddSeedsFromBag(bag, bag.SeedsToPlant - seeding.Count));
+                        seedings.Add(currTray.AddSeedsFromBag(bag, bag.SeedsToPlant - seeding.Count, bag.SeedsToSample - seeding.SamplesCount));
                     }
                 }
             }
@@ -72,17 +78,18 @@ namespace SeedingPlanner
             for (int i = 0; i < seedings.Count; i++)
             {
                 Seeding seeding = seedings[i];
-                SampleGroup sg = currPlate.AddSamples(seeding, seeding.Bag.SeedsToSample);
 
-                if (currPlate.isFull())
+                while (seeding.SamplesCount > 0)
                 {
-                    // plate is full, take another plate
-                    _plates.Add(currPlate);
-                    currPlate = new Plate((_plates.Count+1).ToString("000"));
-                    if (sg != null && sg.Count < seeding.Count)
+                    SampleGroup sg = currPlate.AddSamples(seeding, seeding.SamplesCount);
+
+                    if (currPlate.isFull())
                     {
-                        currPlate.AddSamples(seeding, seeding.Count - sg.Count);
+                        // plate is full, take another plate
+                        _plates.Add(currPlate);
+                        currPlate = new Plate((_plates.Count + 1).ToString("000"));
                     }
+                    seeding.SamplesCount -= sg.Count;
                 }
             }
             // add the last plate
@@ -93,6 +100,7 @@ namespace SeedingPlanner
 
             //Console.WriteLine("Added {0} trays to the setup", _trays.Count);
             //Console.WriteLine("Added {0} plates to the setup", _plates.Count);
+            //Console.WriteLine("Plan cost is: {0}", Cost());
         }
 
         public void SaveToExcel(string filename)
@@ -130,11 +138,6 @@ namespace SeedingPlanner
             foreach (Plate p in _plates)
             {
                 cost += (p.NumberOfSamples * p.SeedsCount);
-                if (p.TraysCount > 2)
-                {
-                    // add an artifical factor to avoid too many trays in a plate
-                    cost = (int)(cost * (1 + (p.TraysCount * 0.1)));
-                }
             }
 
             return cost * -1.0;

@@ -50,12 +50,13 @@ namespace SeedingPlanner
 
         public Seeding AddSeedsFromBag(Bag bag)
         {
-            return AddSeedsFromBag(bag, bag.SeedsToPlant);
+            return AddSeedsFromBag(bag, bag.SeedsToPlant, bag.SeedsToSample);
         }
 
-        public Seeding AddSeedsFromBag(Bag bag, int seedsToAdd)
+        public Seeding AddSeedsFromBag(Bag bag, int seedsToAdd, int seedsToSample)
         {
             int seedsAdded = 0;
+            int samplesAdded = 0;
             Seeding seeding = null;
 
             if (!isFull())
@@ -85,7 +86,15 @@ namespace SeedingPlanner
                 seedsAdded = rowsAdded * Config.Application.Tray.NumberOfCellsInRow;
                 _seedsCount += seedsAdded;
 
-                seeding = new Seeding(bag, this, fromRow, toRow, seedsAdded);
+                if (seedsAdded >= seedsToSample)
+                {
+                    samplesAdded = seedsToSample;
+                }
+                else
+                {
+                    samplesAdded = seedsAdded;
+                }
+                seeding = new Seeding(bag, this, fromRow, toRow, seedsAdded, samplesAdded);
                 _seeding.Add(seeding);
             }
 
